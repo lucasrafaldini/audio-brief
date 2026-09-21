@@ -60,6 +60,14 @@ current directory for recordings):
 - `--language aa_bb`: skip the language prompt (ISO code, e.g. `en`).
 - `--out DIR`: choose the output directory.
 - `--keep-raw`: keep the recording inside the output folder (`record` only).
+- **Queuing multiple files**: pass extra audio paths after the first:
+  ```bash
+  ./audio-brief transcribe file1.wav file2.wav file3.wav
+  # sequential (one at a time, numbered folders):
+  ./audio-brief transcribe file1.wav file2.wav file3.wav
+  # parallel (N at a time, each in its own folder):
+  ./audio-brief transcribe file1.wav file2.wav --jobs 2
+  ```
 
 ## macOS desktop app
 
