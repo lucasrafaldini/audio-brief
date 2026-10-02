@@ -4,7 +4,7 @@ Record or transcribe audio with Whisper and generate a summary, mindmap,
 keywords and transcripts.
 
 Usage:
-    audio-brief record <seconds>
+    audio-brief record [seconds] [--model base] [--language en]
     audio-brief transcribe <file> [file2 ...] [--jobs N] [--model base] [--language en]
     audio-brief --version
 """
@@ -27,7 +27,13 @@ MODELS = ("tiny", "base", "small", "medium", "large", "turbo")
 LANG_RE = re.compile(r"^[a-zA-Z]{2,3}$")
 
 
+def _interactive() -> bool:
+    return sys.stdin.isatty() and sys.stdout.isatty()
+
+
 def _ask_language() -> str | None:
+    if not _interactive():
+        return None  # non-interactive (piped/CI): auto-detect
     print(
         "\nAudio language? Enter the 2-3 letter ISO code (e.g. en, es, fr, de, it, pt, ja).\n"
         "Press Enter to let Whisper auto-detect."
@@ -41,7 +47,9 @@ def _ask_language() -> str | None:
         print(f"  '{ans}' does not look like a language code. Try e.g. 'en' or 'es'.")
 
 
-def _ask_model(default: str) -> str:
+def _ask_model(default: str = "base") -> str:
+    if not _interactive():
+        return default
     print(
         f"\nWhisper model? [{'/'.join(MODELS)}]\n"
         "Bigger = more precise but much slower (CPU). 'base' is a good default."
@@ -56,40 +64,40 @@ def _ask_model(default: str) -> str:
 def _output_dir(out_dir_base: Path, audio: Path, idx: int | None = None) -> Path:
     """Create a unique output folder per audio file.
 
-    - If idx is given (sequential mode), use audio-brief-<ts>/<idx>/.
-    - Otherwise (parallel mode), use a hash of the file path so each file
-      gets its own folder inside audio-brief-<ts>/.
+    - If idx is given (sequential mode), use <base>/run-<idx>/.
+    - Otherwise (parallel / single mode), use a hash of the file path.
     """
-    out_path = out_dir_base / f"run-{idx}" if idx is not None else out_dir_base / f"hash-{hashlib.sha1(str(audio.resolve()).encode()).hexdigest()[:8]}"
+    out_path = (
+        out_dir_base / f"run-{idx}"
+        if idx is not None
+        else out_dir_base / f"hash-{hashlib.sha1(str(audio.resolve()).encode()).hexdigest()[:8]}"
+    )
     out_path.mkdir(parents=True, exist_ok=True)
     return out_path
 
 
-def transcribe_single(
+def transcribe_and_write(
     audio_path: str,
     model_name: str,
     language: str | None,
-    out_dir_base: Path,
-    idx: int | None = None,
+    out_path: Path,
 ) -> None:
-    """Transcribe one audio file.
+    """Transcribe one audio file and write all output artifacts."""
+    try:
+        import whisper
+    except ImportError:
+        sys.exit(
+            "openai-whisper is not installed. Run ./install.sh or "
+            "`pip install openai-whisper` first."
+        )
 
-    idx is the sequential index (for ordered output folders) or None (for
-    parallel mode where we use a path hash to avoid collisions).
-    """
-    import whisper
     from . import textproc
 
     model = whisper.load_model(model_name)
     audio = Path(audio_path)
     print(f"\nTranscribing {audio.name} (model: {model_name}, language: {language or 'auto-detect'}) ...")
 
-    result = model.transcribe(
-        str(audio),
-        language=language,
-        fp16=False,
-        verbose=False,
-    )
+    result = model.transcribe(str(audio), language=language, fp16=False, verbose=False)
     text = result.get("text", "").strip()
     if not text:
         print("WARNING: Whisper returned no text.")
@@ -103,7 +111,7 @@ def transcribe_single(
         "generated": datetime.datetime.now().isoformat(timespec="seconds"),
     }
 
-    out_path = _output_dir(out_dir_base, audio, idx)
+    out_path.mkdir(parents=True, exist_ok=True)
     writers.write_transcript_txt(segments, out_path / "transcript.txt")
     writers.write_transcript_srt(segments, out_path / "transcript.srt")
     writers.write_transcript_vtt(segments, out_path / "transcript.vtt")
@@ -127,6 +135,36 @@ def transcribe_single(
             print(f"  {f}  ({f.stat().st_size} bytes)")
 
 
+def transcribe_single(
+    audio_path: str,
+    model_name: str,
+    language: str | None,
+    out_dir_base: Path,
+    idx: int | None = None,
+) -> None:
+    """Transcribe one audio file into its own subfolder of out_dir_base."""
+    audio = Path(audio_path)
+    out_path = _output_dir(out_dir_base, audio, idx)
+    transcribe_and_write(audio_path, model_name, language, out_path)
+
+
+def _add_common_options(p: argparse.ArgumentParser) -> None:
+    p.add_argument("--model", default=None, choices=MODELS,
+                   help=f"Whisper model (default: asked / base)")
+    p.add_argument("--language", default=None,
+                   help="ISO 639-1/-2 language code (default: asked / auto)")
+    p.add_argument("--out", "--output", dest="out", default=None,
+                   help="Output directory (default: audio-brief-<timestamp>/ under cwd)")
+
+
+def _resolve_language(value: str | None) -> str | None:
+    if value is None:
+        return _ask_language()
+    if not LANG_RE.match(value):
+        sys.exit(f"Invalid --language '{value}': expected a 2-3 letter ISO code")
+    return value
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
         prog="audio-brief",
@@ -134,136 +172,74 @@ def main(argv: list[str] | None = None) -> None:
                     "mindmap, keywords and transcripts.",
     )
     parser.add_argument("--version", action="version", version=f"audio-brief {__version__}")
-    parser.add_argument("--model", default=None,
-                        help=f"Whisper model: {'/'.join(MODELS)} (default: asked / base)")
 
     sub = parser.add_subparsers(dest="command", required=True)
 
-    # ----- record subcommand -----
     p_rec = sub.add_parser("record", help="Record from the microphone and process")
     p_rec.add_argument("duration", type=int, nargs="?", default=60,
                        help="Recording length in seconds (default 60)")
+    p_rec.add_argument("--keep-raw", action="store_true",
+                       help="Keep the raw recording inside the output folder")
+    _add_common_options(p_rec)
 
-    # ----- transcribe subcommand -----
     p_tr = sub.add_parser("transcribe", help="Transcribe one or more audio files")
     p_tr.add_argument("audio", nargs="+", help="Path(s) to audio file(s)")
     p_tr.add_argument("--jobs", type=int, default=1,
-                        help="Number of parallel transcriptions (default: 1). "
-                             "Use >1 for multiprocessing (each loads its own model).")
-    p_tr.add_argument("--language", default=None,
-                        help="ISO 639-1/-2 language code (default: asked / auto)")
-    p_tr.add_argument("--out", "--output", dest="out", default=None,
-                        help="Output directory (default: per-file under cwd)")
+                      help="Number of parallel transcriptions (default: 1). "
+                           "Use >1 for multiprocessing (each loads its own model).")
+    _add_common_options(p_tr)
 
     args = parser.parse_args(argv)
 
-    # Validate language if provided globally (record doesn't use it).
-    if args.command == "transcribe":
-        language = args.language
-        if language is not None and not LANG_RE.match(language):
-            sys.exit(f"Invalid --language '{language}': expected a 2-3 letter ISO code")
-        if language is None:
-            language = _ask_language()
-        model_name = args.model if args.model else _ask_model("base")
-        if model_name not in MODELS:
-            sys.exit(f"Model '{model_name}' not in {', '.join(MODELS)}")
+    language = _resolve_language(args.language)
+    model_name = args.model if args.model else _ask_model("base")
 
-        audio_files = [Path(a).expanduser() for a in args.audio]
-        for p in audio_files:
-            if not p.is_file():
-                sys.exit(f"Cannot find audio file: {p}")
+    out_dir_base = (
+        Path(args.out).expanduser()
+        if args.out
+        else Path.cwd() / f"audio-brief-{datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}"
+    )
+    out_dir_base.mkdir(parents=True, exist_ok=True)
 
-        # Base output directory: use cwd if no --out.
-        out_dir_base = Path(args.out) if args.out else Path.cwd() / f"audio-brief-{datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}"
-        out_dir_base.mkdir(parents=True, exist_ok=True)
-
-        n_jobs = max(1, args.jobs)
-        if n_jobs == 1:
-            # Sequential: hand off an index so each gets a numbered folder.
-            for i, audio in enumerate(audio_files):
-                print(f"\nTranscribing {audio.name} (model: {model_name}, language: {language or 'auto-detect'}) [#{i+1}/{len(audio_files)}] ...")
-                transcribe_single(str(audio), model_name, language, out_dir_base, idx=i)
-        else:
-            # Parallel: each worker gets a unique folder via path hash.
-            print(f"\nStarting {n_jobs} parallel transcriptions (jobs={n_jobs}) …")
-            with concurrent.futures.ProcessPoolExecutor(max_workers=n_jobs) as executor:
-                futures = []
-                for i, audio in enumerate(audio_files):
-                    future = executor.submit(
-                        transcribe_single,
-                        str(audio),
-                        model_name,
-                        language,
-                        out_dir_base,  # base dir; worker creates its own subfolder via hash
-                        None,          # idx=None → parallel mode uses hash
-                    )
-                    futures.append(future)
-                for future in concurrent.futures.as_completed(futures):
-                    try:
-                        future.result()
-                    except Exception as e:
-                        sys.stderr.write(f"Transcription worker error: {e}\n")
-            print("\nAll transcriptions finished.")
-
-    elif args.command == "record":
+    if args.command == "record":
         raw = recorder.record(args.duration)
-        out_dir_base = Path.cwd() / f"audio-brief-{datetime.datetime.now().strftime('%Y%m%d-%H%M%S')}"
-        out_dir_base.mkdir(parents=True, exist_ok=True)
+        try:
+            if args.keep_raw:
+                shutil.copy2(raw, out_dir_base / raw.name)
+            out_path = out_dir_base / raw.stem
+            transcribe_and_write(str(raw), model_name, language, out_path)
+        finally:
+            if not args.keep_raw:
+                try:
+                    raw.unlink()
+                except OSError:
+                    pass
+        return
 
-        if args.keep_raw:
-            shutil.copy2(raw, out_dir_base / raw.name)
+    # ----- transcribe -----
+    audio_files = [Path(a).expanduser() for a in args.audio]
+    for p in audio_files:
+        if not p.is_file():
+            sys.exit(f"Cannot find audio file: {p}")
 
-        # Transcribe the recording immediately (single job, no prompt replay).
-        import whisper
-        model = whisper.load_model(model_name if 'model_name' in dir() else "base")
-        lang_msg = language if 'language' in dir() else "auto-detect"
-        # Actually re-prompt for language/model for record if not provided:
-        # For simplicity, we just reuse the already-asked values from above,
-        # but record has its own flow. Let me just do a quick single transcription
-        # using the global language/model if they were already set, otherwise ask.
-        # Since argparse doesn't carry --language/--model into record subcommand
-        # easily, we just ask again here.
-        language2 = _ask_language()
-        if language2 is None:
-            language2 = "auto"
-        model_name2 = _ask_model("base")
-        if model_name2 not in MODELS:
-            sys.exit(f"Model '{model_name2}' not valid.")
-        model = whisper.load_model(model_name2)
-        lang_msg = language2 or "auto-detect"
-        print(f"\nTranscribing recording (language: {lang_msg}) ...")
-        result = model.transcribe(str(raw), language=language2, fp16=False, verbose=False)
-        text = result.get("text", "").strip()
-        segments = result.get("segments") or []
-        meta = {
-            "source": str(raw),
-            "model": model_name2,
-            "language": result.get("language", language2),
-            "duration": result.get("duration", 0.0),
-            "generated": datetime.datetime.now().isoformat(timespec="seconds"),
-        }
-        out_dir = out_dir_base / raw.stem
-        out_dir.mkdir(parents=True, exist_ok=True)
-        writers.write_transcript_txt(segments, out_dir / "transcript.txt")
-        writers.write_transcript_srt(segments, out_dir / "transcript.srt")
-        writers.write_transcript_vtt(segments, out_dir / "transcript.vtt")
-        writers.write_transcript_json(segments, meta, out_dir / "transcript.json")
-        writers.write_summary(text, out_dir / "summary.md")
-        writers.write_keywords(text, out_dir / "keywords.md")
-        writers.write_mindmap_markdown(text, out_dir / "mindmap.md")
-        writers.write_mindmap_mermaid(text, out_dir / "mindmap.mmd")
-        writers.write_report(
-            text,
-            textproc.extract_keywords(text),
-            textproc.summarize(text),
-            (out_dir / "mindmap.md").read_text(encoding="utf-8"),
-            out_dir / "report.md",
-            meta,
-        )
-        print("\n--- Written files ---")
-        for f in sorted(out_dir.iterdir()):
-            if f.is_file():
-                print(f"  {f}  ({f.stat().st_size} bytes)")
+    n_jobs = max(1, args.jobs)
+    if n_jobs == 1:
+        for i, audio in enumerate(audio_files):
+            print(f"\n[{i+1}/{len(audio_files)}]", end=" ")
+            transcribe_single(str(audio), model_name, language, out_dir_base, idx=i)
+    else:
+        print(f"\nStarting {n_jobs} parallel transcriptions (jobs={n_jobs}) …")
+        with concurrent.futures.ProcessPoolExecutor(max_workers=n_jobs) as executor:
+            futures = [
+                executor.submit(transcribe_single, str(audio), model_name, language, out_dir_base, None)
+                for audio in audio_files
+            ]
+            for future in concurrent.futures.as_completed(futures):
+                try:
+                    future.result()
+                except Exception as e:
+                    sys.stderr.write(f"Transcription worker error: {e}\n")
+        print("\nAll transcriptions finished.")
 
 
 if __name__ == "__main__":

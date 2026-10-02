@@ -1,89 +1,149 @@
-# audio-brief
+# 🎧 audio-brief
 
-Record or transcribe audio with **Whisper** and generate a summary, a mind map,
-keywords and transcripts from the content.
+[![Hacktoberfest](https://img.shields.io/badge/Hacktoberfest-2026-f74700?style=flat-square)](https://hacktoberfest.com)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)](https://www.python.org)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 
-Works on **Linux** and **macOS**. Recording backends (picked automatically):
-`arecord` on Linux, `ffmpeg` (avfoundation) on macOS, or `sox rec` if present.
-Force one with `AUDIO_BRIEF_RECORDER` (e.g. `AUDIO_BRIEF_RECORDER=ffmpeg`); pick
-a specific microphone with `AUDIO_BRIEF_MIC` (macOS defaults to input `0`).
+Record or transcribe audio with **OpenAI Whisper** and automatically get a
+**summary**, a **mind map**, **keywords**, and ready-to-use transcripts
+(`.txt`, `.srt`, `.vtt`, `.json`) — all in one command. No API keys, runs
+offline (after the first model download).
 
-## Setup
+Works on **Linux** and **macOS**.
 
-```bash
-python3 -m venv .venv
-.venv/bin/pip install openai-whisper          # installs CPU PyTorch + Whisper
-chmod +x audio-brief
-```
+## ✨ Features
 
-## Usage
+- 🎙️ Record from your microphone or transcribe existing audio files
+- 🌍 Auto language detection (or force it with `--language`)
+- 🧠 Extractive summary, keyword extraction, and mind maps (Markmap + Mermaid)
+- 📄 Subtitles in SRT/VTT + a single bundled `report.md`
+- ⚡ Queue multiple files, optionally in parallel with `--jobs N`
+- 🖥️ Friendly CLI: sensible defaults, zero prompts when piped/CI
 
-Record from the microphone for 2 minutes, then process:
+## 🚀 Quick start
 
-```bash
-./audio-brief record 120
-```
-
-Transcribe an existing file:
-
-```bash
-./audio-brief transcribe path/to/lecture.mp3
-```
-
-You will be asked for the audio **language** (2-3-letter ISO code, or Enter to
-auto-detect) and, the first run, for the **Whisper model**.
-
-For precision use a large model (slower on CPU):
+Requires **Python 3.10+** and (for macOS recording) `ffmpeg`
+(`brew install ffmpeg` on macOS, `apt install ffmpeg` on Debian/Ubuntu).
 
 ```bash
-./audio-brief transcribe file.wav --model medium --language en
+git clone https://github.com/lucasrafaldini/audio-brief.git
+cd audio-brief
+./install.sh          # creates .venv and installs everything
 ```
 
-## Outputs
+Then:
 
-Files are written to `audio-brief-<timestamp>/` next to the audio (or in the
-current directory for recordings):
+```bash
+./audio-brief transcribe meeting.mp3        # pick model/language interactively
+./audio-brief transcribe meeting.mp3 --model base --language en
+./audio-brief record 120                     # record 2 minutes, then transcribe
+```
+
+After `install.sh`, you can also add the venv to your PATH and use the command
+directly:
+
+```bash
+export PATH="$PWD/.venv/bin:$PATH"
+audio-brief --help
+```
+
+### Alternative installs
+
+```bash
+pip install .          # into your current environment
+pipx install .         # isolated CLI install
+```
+
+## 📖 Usage
+
+```
+audio-brief record [seconds] [--model M] [--language L] [--out DIR] [--keep-raw]
+audio-brief transcribe <file> [file2 ...] [--jobs N] [--model M] [--language L] [--out DIR]
+audio-brief --version
+```
+
+| Option | Meaning |
+|--------|---------|
+| `--model` | `tiny` (fast/fuzzy) → `base` → `small` → `medium` → `large`/`turbo` (accurate, slower) |
+| `--language` | 2–3 letter ISO code (e.g. `en`, `pt`, `es`). Skips the prompt; auto-detect if unset |
+| `--out DIR` | Choose the output directory |
+| `--jobs N` | Transcribe N files in parallel |
+| `--keep-raw` | Keep the recorded `.wav` inside the output folder (`record` only) |
+
+Examples:
+
+```bash
+# one file, English, medium model
+audio-brief transcribe lecture.wav --model medium --language en
+
+# three files, two at a time
+audio-brief transcribe a.mp3 b.mp3 c.mp3 --jobs 2
+```
+
+When run interactively you'll be asked for language and model once; when
+piped (CI, scripts) it silently uses auto-detect + `base`.
+
+## 📂 Output
+
+Files land in `audio-brief-<timestamp>/` next to the audio (or in the current
+directory for recordings):
 
 | File | Content |
 |------|---------|
-| `transcript.txt` / `.srt` / `.vtt` | Text transcript with timestamps + subtitles |
+| `transcript.txt` | Timestamped plain-text transcript |
+| `transcript.srt` / `.vtt` | Subtitles |
 | `transcript.json` | Raw segment data |
-| `summary.md` | Extractive summary of key sentences |
+| `summary.md` | Key sentences, ranked |
 | `keywords.md` | Top topics/keywords with frequencies |
-| `mindmap.md` | Mind map (editable with https://markmap.js.org) |
-| `mindmap.mmd` | Mind map in Mermaid syntax (mermaid.live) |
-| `report.md` | Single file bundling everything |
+| `mindmap.md` | Mind map (paste into [markmap.js.org](https://markmap.js.org)) |
+| `mindmap.mmd` | Mind map in Mermaid ([mermaid.live](https://mermaid.live)) |
+| `report.md` | Everything bundled in one Markdown file |
 
-## Tips
+## ⚙️ Recording backends
 
-- `--model`: `tiny` (fast/fuzzy) ... `turbo`/`large` (accurate, slow on CPU).
-- `--language aa_bb`: skip the language prompt (ISO code, e.g. `en`).
-- `--out DIR`: choose the output directory.
-- `--keep-raw`: keep the recording inside the output folder (`record` only).
-- **Queuing multiple files**: pass extra audio paths after the first:
-  ```bash
-  ./audio-brief transcribe file1.wav file2.wav file3.wav
-  # sequential (one at a time, numbered folders):
-  ./audio-brief transcribe file1.wav file2.wav file3.wav
-  # parallel (N at a time, each in its own folder):
-  ./audio-brief transcribe file1.wav file2.wav --jobs 2
-  ```
-
-## macOS desktop app
-
-If you want a macOS application bundle:
+Picked automatically: `arecord` (Linux/ALSA) → `ffmpeg` (macOS via
+avfoundation, Linux via ALSA) → `sox rec`. Force one and choose a mic:
 
 ```bash
-# 1. Install py2app into your venv
-.venv/bin/pip install py2app
-
-# 2. Run py2app to build the app bundle
-python3 setup.py py2app -A
+AUDIO_BRIEF_RECORDER=ffmpeg AUDIO_BRIEF_MIC=1 audio-brief record 60
+# list macOS audio inputs:
+ffmpeg -f avfoundation -list_devices true -i ''
 ```
 
-The built app will appear at `dist/audio-brief.app`. First launch will download
-the Whisper model (tiny ≈ 75 MB). Ensure `ffmpeg` is installed (`brew install ffmpeg`)
-for microphone recording.
+## 💡 Model sizing
 
-You can also sign the app for distribution:
-`codesign --force --deep --sign - dist/audio-brief.app`.
+| Model | Size | Speed (CPU) | Quality |
+|-------|------|-------------|---------|
+| `tiny` | ~75 MB | fastest | fuzzy |
+| `base` | ~150 MB | fast | ok for a brief |
+| `small` | ~500 MB | medium | good |
+| `medium` | ~1.5 GB | slow | great |
+| `large`/`turbo` | ~3 GB | slowest | best |
+
+## 🍎 macOS app bundle (optional)
+
+```bash
+.venv/bin/pip install py2app
+.venv/bin/python setup.py py2app -A
+# -> dist/audio-brief.app
+```
+
+## 🤝 Contributing
+
+PRs welcome — especially for Hacktoberfest! Ideas:
+
+- Speaker diarization
+- LLM-based summaries (optional flag)
+- More output formats (HTML, Obsidian, Anki)
+- Better Windows support / GUI wrapper
+
+```bash
+git clone https://github.com/lucasrafaldini/audio-brief.git
+cd audio-brief && ./install.sh
+```
+
+Open an issue before large changes so we can align on scope.
+
+## 📜 License
+
+MIT

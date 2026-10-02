@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+# Convenience launcher: uses the project venv when present, otherwise the
+# installed `audio-brief` entry point or python3 on PATH.
 set -euo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-exec "$DIR/.venv/bin/python" -m audio_brief.cli "$@"
+if [ -x "$DIR/.venv/bin/python" ]; then
+    exec "$DIR/.venv/bin/python" -m audio_brief.cli "$@"
+elif command -v audio-brief >/dev/null 2>&1; then
+    exec audio-brief "$@"
+else
+    exec python3 -m audio_brief.cli "$@"
+fi

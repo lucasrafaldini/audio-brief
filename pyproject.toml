@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "audio-brief"
+version = "0.2.0"
+description = "Record or transcribe audio with Whisper and get summaries, mindmaps, keywords and transcripts."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Lucas Rafaldini" }]
+keywords = ["whisper", "transcription", "audio", "summary", "cli"]
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+]
+dependencies = ["openai-whisper>=20231117"]
+
+[project.optional-dependencies]
+macos-app = ["py2app"]
+
+[project.scripts]
+audio-brief = "audio_brief.cli:main"
+
+[tool.setuptools]
+packages = ["audio_brief"]
