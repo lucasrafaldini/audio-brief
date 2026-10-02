@@ -128,6 +128,14 @@ def transcribe_and_write(
         out_path / "report.md",
         meta,
     )
+    writers.write_report_html(
+        text,
+        textproc.extract_keywords(text),
+        textproc.summarize(text),
+        (out_path / "mindmap.md").read_text(encoding="utf-8"),
+        out_path / "report.html",
+        meta,
+    )
 
     print(f"\n--- Written to {out_path} ---")
     for f in sorted(out_path.iterdir()):

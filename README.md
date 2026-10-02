@@ -98,6 +98,10 @@ directory for recordings):
 | `mindmap.md` | Mind map (paste into [markmap.js.org](https://markmap.js.org)) |
 | `mindmap.mmd` | Mind map in Mermaid ([mermaid.live](https://mermaid.live)) |
 | `report.md` | Everything bundled in one Markdown file |
+| `report.html` | Offline browser report with summary, keywords, mindmap outline, and full transcript |
+
+Open `report.html` directly in a browser. It has no external scripts, stylesheets,
+or viewer dependencies; the mindmap is shown as a readable Markdown outline.
 
 ## ⚙️ Recording backends
 
