@@ -1,5 +1,7 @@
 # 🎧 audio-brief
 
+> 🌐 **English** · [Português (Brasil)](README.pt-BR.md) · [Español](README.es.md)
+
 [![Hacktoberfest](https://img.shields.io/badge/Hacktoberfest-2026-f74700?style=flat-square)](https://hacktoberfest.com)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)](https://www.python.org)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
