@@ -144,6 +144,8 @@ cd audio-brief && ./install.sh
 
 Open an issue before large changes so we can align on scope.
 
+See also: [CONTRIBUTING.md](CONTRIBUTING.md) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) · [SECURITY.md](SECURITY.md) · [LICENSE](LICENSE)
+
 ## 📜 License
 
 MIT

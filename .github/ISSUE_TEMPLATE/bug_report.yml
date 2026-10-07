@@ -1,0 +1,26 @@
+name: Bug report
+about: Something isn't working?
+title: "[BUG] "
+labels: bug
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what actually happened?
+    validations:
+      required: true
+  - type: input
+    id: command
+    attributes:
+      label: Command run
+      placeholder: audio-brief transcribe file.mp3 --model base
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: OS, Python version, whisper version
+    validations:
+      required: true
