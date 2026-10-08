@@ -6,6 +6,7 @@ keywords and transcripts.
 Usage:
     audio-brief record [seconds] [--model base] [--language en]
     audio-brief transcribe <file> [file2 ...] [--jobs N] [--model base] [--language en]
+    audio-brief doctor
     audio-brief --version
 """
 
@@ -15,16 +16,20 @@ import argparse
 import concurrent.futures
 import datetime
 import hashlib
+import platform
 import re
 import shutil
 import sys
 from pathlib import Path
+from typing import Any
 
 from . import __version__
 from . import recorder, writers
 
 MODELS = ("tiny", "base", "small", "medium", "large", "turbo")
 LANG_RE = re.compile(r"^[a-zA-Z]{2,3}$")
+
+_MODEL_CACHE: dict[str, Any] = {}
 
 
 def _interactive() -> bool:
@@ -61,6 +66,21 @@ def _ask_model(default: str = "base") -> str:
         print(f"  '{ans}' is not valid. Choose one of: {', '.join(MODELS)}")
 
 
+def _get_model(model_name: str) -> Any:
+    """Load a Whisper model once per process (cached)."""
+    if model_name not in _MODEL_CACHE:
+        try:
+            import whisper
+        except ImportError:
+            sys.exit(
+                "openai-whisper is not installed. Run ./install.sh or "
+                "`pip install openai-whisper` first."
+            )
+        print(f"Loading Whisper model '{model_name}' ...")
+        _MODEL_CACHE[model_name] = whisper.load_model(model_name)
+    return _MODEL_CACHE[model_name]
+
+
 def _output_dir(out_dir_base: Path, audio: Path, idx: int | None = None) -> Path:
     """Create a unique output folder per audio file.
 
@@ -81,19 +101,15 @@ def transcribe_and_write(
     model_name: str,
     language: str | None,
     out_path: Path,
-) -> None:
-    """Transcribe one audio file and write all output artifacts."""
-    try:
-        import whisper
-    except ImportError:
-        sys.exit(
-            "openai-whisper is not installed. Run ./install.sh or "
-            "`pip install openai-whisper` first."
-        )
+    summary_n: int = 8,
+    keywords_n: int = 15,
+    model: Any = None,
+) -> Path:
+    """Transcribe one audio file and write all output artifacts.
 
-    from . import textproc
-
-    model = whisper.load_model(model_name)
+    Returns the output directory.
+    """
+    model = model if model is not None else _get_model(model_name)
     audio = Path(audio_path)
     print(f"\nTranscribing {audio.name} (model: {model_name}, language: {language or 'auto-detect'}) ...")
 
@@ -111,28 +127,14 @@ def transcribe_and_write(
         "generated": datetime.datetime.now().isoformat(timespec="seconds"),
     }
 
-    out_path.mkdir(parents=True, exist_ok=True)
-    writers.write_transcript_txt(segments, out_path / "transcript.txt")
-    writers.write_transcript_srt(segments, out_path / "transcript.srt")
-    writers.write_transcript_vtt(segments, out_path / "transcript.vtt")
-    writers.write_transcript_json(segments, meta, out_path / "transcript.json")
-    writers.write_summary(text, out_path / "summary.md")
-    writers.write_keywords(text, out_path / "keywords.md")
-    writers.write_mindmap_markdown(text, out_path / "mindmap.md")
-    writers.write_mindmap_mermaid(text, out_path / "mindmap.mmd")
-    writers.write_report(
-        text,
-        textproc.extract_keywords(text),
-        textproc.summarize(text),
-        (out_path / "mindmap.md").read_text(encoding="utf-8"),
-        out_path / "report.md",
-        meta,
+    written = writers.write_all(
+        text, segments, meta, out_path,
+        summary_n=summary_n, keywords_n=keywords_n,
     )
-
     print(f"\n--- Written to {out_path} ---")
-    for f in sorted(out_path.iterdir()):
-        if f.is_file():
-            print(f"  {f}  ({f.stat().st_size} bytes)")
+    for f in sorted(written):
+        print(f"  {f}  ({f.stat().st_size} bytes)")
+    return out_path
 
 
 def transcribe_single(
@@ -141,20 +143,63 @@ def transcribe_single(
     language: str | None,
     out_dir_base: Path,
     idx: int | None = None,
+    summary_n: int = 8,
+    keywords_n: int = 15,
+    model: Any = None,
 ) -> None:
     """Transcribe one audio file into its own subfolder of out_dir_base."""
     audio = Path(audio_path)
     out_path = _output_dir(out_dir_base, audio, idx)
-    transcribe_and_write(audio_path, model_name, language, out_path)
+    transcribe_and_write(
+        audio_path, model_name, language, out_path,
+        summary_n=summary_n, keywords_n=keywords_n, model=model,
+    )
+
+
+def cmd_doctor() -> int:
+    """Check the environment: Python, Whisper, recording backends."""
+    ok = True
+    print(f"Python {platform.python_version()} on {platform.system()} {platform.machine()}")
+
+    try:
+        import whisper
+
+        print(f"whisper {whisper.__version__} installed: OK")
+    except ImportError:
+        print("whisper NOT installed (run ./install.sh): MISSING")
+        ok = False
+
+    status = recorder.backend_status()
+    for backend, available in status.items():
+        print(f"recorder '{backend}': {'OK' if available else 'missing'}")
+    if not any(status.values()):
+        print("No recording backend found: 'record' will fail. Install ffmpeg.")
+        ok = False
+
+    if platform.system() == "Darwin":
+        devices = recorder.list_devices()
+        if devices:
+            print("\nmacOS audio devices (ffmpeg avfoundation):")
+            print(devices)
+        else:
+            print("\nCould not list macOS audio devices (is ffmpeg installed?)")
+
+    print(f"\nWhisper models: {', '.join(MODELS)} (downloaded on first use)")
+    print("\nDoctor:", "ALL OK" if ok else "ISSUES FOUND")
+    return 0 if ok else 1
 
 
 def _add_common_options(p: argparse.ArgumentParser) -> None:
     p.add_argument("--model", default=None, choices=MODELS,
-                   help=f"Whisper model (default: asked / base)")
+                   help="Whisper model (default: asked / base)")
     p.add_argument("--language", default=None,
                    help="ISO 639-1/-2 language code (default: asked / auto)")
     p.add_argument("--out", "--output", dest="out", default=None,
                    help="Output directory (default: audio-brief-<timestamp>/ under cwd)")
+    p.add_argument("--summary-n", type=int, default=8, metavar="N",
+                   help="Max sentences in the summary (default: 8)")
+    p.add_argument("--keywords-n", type=int, default=15, metavar="N",
+                   help="Max keywords extracted (default: 15)")
 
 
 def _resolve_language(value: str | None) -> str | None:
@@ -165,7 +210,7 @@ def _resolve_language(value: str | None) -> str | None:
     return value
 
 
-def main(argv: list[str] | None = None) -> None:
+def main(argv: list[str] | None = None) -> int | None:
     parser = argparse.ArgumentParser(
         prog="audio-brief",
         description="Record or transcribe audio with Whisper and generate a summary, "
@@ -189,10 +234,19 @@ def main(argv: list[str] | None = None) -> None:
                            "Use >1 for multiprocessing (each loads its own model).")
     _add_common_options(p_tr)
 
+    sub.add_parser("doctor", help="Check environment (Python, Whisper, recording backends)")
+
     args = parser.parse_args(argv)
+
+    if args.command == "doctor":
+        return cmd_doctor()
 
     language = _resolve_language(args.language)
     model_name = args.model if args.model else _ask_model("base")
+    if args.summary_n < 1:
+        sys.exit("--summary-n must be >= 1")
+    if args.keywords_n < 1:
+        sys.exit("--keywords-n must be >= 1")
 
     out_dir_base = (
         Path(args.out).expanduser()
@@ -207,14 +261,17 @@ def main(argv: list[str] | None = None) -> None:
             if args.keep_raw:
                 shutil.copy2(raw, out_dir_base / raw.name)
             out_path = out_dir_base / raw.stem
-            transcribe_and_write(str(raw), model_name, language, out_path)
+            transcribe_and_write(
+                str(raw), model_name, language, out_path,
+                summary_n=args.summary_n, keywords_n=args.keywords_n,
+            )
         finally:
             if not args.keep_raw:
                 try:
                     raw.unlink()
                 except OSError:
                     pass
-        return
+        return 0
 
     # ----- transcribe -----
     audio_files = [Path(a).expanduser() for a in args.audio]
@@ -224,23 +281,36 @@ def main(argv: list[str] | None = None) -> None:
 
     n_jobs = max(1, args.jobs)
     if n_jobs == 1:
+        model = _get_model(model_name)  # load once, reuse for all files
         for i, audio in enumerate(audio_files):
             print(f"\n[{i+1}/{len(audio_files)}]", end=" ")
-            transcribe_single(str(audio), model_name, language, out_dir_base, idx=i)
+            transcribe_single(
+                str(audio), model_name, language, out_dir_base, idx=i,
+                summary_n=args.summary_n, keywords_n=args.keywords_n, model=model,
+            )
     else:
         print(f"\nStarting {n_jobs} parallel transcriptions (jobs={n_jobs}) …")
         with concurrent.futures.ProcessPoolExecutor(max_workers=n_jobs) as executor:
             futures = [
-                executor.submit(transcribe_single, str(audio), model_name, language, out_dir_base, None)
+                executor.submit(
+                    transcribe_single, str(audio), model_name, language,
+                    out_dir_base, None, args.summary_n, args.keywords_n, None,
+                )
                 for audio in audio_files
             ]
+            failed = 0
             for future in concurrent.futures.as_completed(futures):
                 try:
                     future.result()
                 except Exception as e:
+                    failed += 1
                     sys.stderr.write(f"Transcription worker error: {e}\n")
         print("\nAll transcriptions finished.")
+        if failed:
+            sys.stderr.write(f"{failed} file(s) failed.\n")
+            return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

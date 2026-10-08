@@ -8,12 +8,10 @@ keyword list and a simple mind map.
 
 from __future__ import annotations
 
-import heapq
 import re
 import string
 from collections import Counter
 from dataclasses import dataclass, field
-from typing import Iterable
 
 STOPWORDS = {
     "the", "a", "an", "and", "or", "but", "if", "then", "so", "for", "of",
@@ -38,6 +36,39 @@ STOPWORDS = {
     "dem", "einem", "einer", "als", "auch", "bei", "dass", "eine", "kein",
     "le", "la", "les", "un", "une", "des", "est", "sont", "et", "ou", "dans",
     "pour", "avec", "sur", "ce", "cette", "ces", "pas", "que", "qui",
+    # Portuguese
+    "de", "do", "dos", "das", "em", "num", "numa", "nuns", "numas", "para",
+    "pra", "pro", "com", "sem", "sob", "sobre", "entre", "até", "após",
+    "antes", "durante", "contra", "segundo", "conforme", "mediante", "perante",
+    "exceto", "salvo", "afora", "fora", "dentro", "através", "o", "os",
+    "as", "ao", "aos", "à", "às", "pelo", "pelos", "pela", "pelas",
+    "dum", "duma", "neste", "nesta", "nesse", "nessa", "nisso", "nele",
+    "nela", "deles", "delas", "aqui", "aí", "ali", "lá", "cá", "onde",
+    "quando", "quanto", "quantos", "qual", "quais", "quem", "cujo", "cuja",
+    "e", "nem", "mas", "porém", "todavia", "contudo", "entretanto",
+    "portanto", "logo", "pois", "porque", "porquanto", "embora", "apesar",
+    "caso", "se", "senão", "ou", "ora", "quer", "já", "tão", "tanto",
+    "muito", "pouco", "bastante", "demais", "mais", "menos", "todo",
+    "toda", "todos", "todas", "algum", "alguma", "alguns", "algumas",
+    "nenhum", "nenhuma", "outro", "outra", "outros", "outras", "mesmo",
+    "mesma", "próprio", "tal", "tais", "cada", "qualquer", "quaisquer",
+    "algo", "tudo", "nada", "alguém", "ninguém", "outrem", "si", "consigo",
+    "eu", "tu", "você", "vocês", "nós", "eles", "elas", "mim", "ti",
+    "lhe", "lhes", "nele", "nela", "dele", "dela", "meu", "minha",
+    "teu", "tua", "nosso", "nossa", "vosso", "vossa", "desse", "dessa",
+    "deste", "desta", "daquele", "daquela", "isto", "isso", "aquilo",
+    "este", "esta", "esse", "essa", "aquele", "aquela", "foi", "são",
+    "ser", "ter", "estar", "haver", "fazer", "dizer", "dar", "ver",
+    "poder", "querer", "saber", "ficar", "ir", "vir", "há", "tem",
+    "têm", "está", "estão", "estava", "eram", "foram", "será", "seria",
+    "coisa", "coisas", "vez", "vezes", "ano", "anos", "dia", "dias",
+    "gente", "pessoa", "pessoas", "tempo", "forma", "parte", "mundo",
+    "vida", "casa", "trabalho", "governo", "país", "empresa", "grupo",
+    "meio", "fim", "início", "lugar", "modo", "motivo", "jeito", "tipo",
+    "né", "tá", "pra", "aí", "então", "ainda", "também", "sempre",
+    "nunca", "jamais", "talvez", "apenas", "só", "somente", "inclusive",
+    "até", "mesmo", "próprio", "cerca", "quase", "muita", "muitas",
+    "pouca", "poucas", "vários", "várias", "ambos", "ambas", "tanto",
 }
 
 _TOKEN_RE = re.compile(r"[A-Za-zÀ-ÿ0-9À-ý']+", re.UNICODE)
@@ -52,13 +83,26 @@ def sentences(text: str) -> list[str]:
     parts = [p.strip() for p in _SENT_RE.split(text) if p.strip()]
     out: list[str] = []
     buffer = ""
+
+    def flush() -> None:
+        nonlocal buffer
+        # Chunk overlong buffers (weak/no punctuation, common in raw
+        # Whisper output) into 30-word sentences.
+        toks = buffer.split()
+        while len(toks) > 30:
+            out.append(" ".join(toks[:30]))
+            toks = toks[30:]
+        if toks:
+            out.append(" ".join(toks))
+        buffer = ""
+
     for part in parts:
         buffer = f"{buffer} {part}".strip()
-        if buffer.count(" ") >= 8 or buffer.endswith((".", "!", "?", "\u3002")):
-            out.append(buffer)
-            buffer = ""
+        words = buffer.count(" ") + 1
+        if buffer.endswith((".", "!", "?", "\u3002")) or words >= 30:
+            flush()
     if buffer:
-        out.append(buffer)
+        flush()
     return out
 
 
@@ -142,6 +186,17 @@ def _overlap(a: str, b: str) -> float:
     return inter / min(len(ta), len(tb))
 
 
+def stats(text: str) -> dict[str, int]:
+    """Basic document statistics for reports."""
+    words = len(tokenize(text))
+    n_sentences = len(sentences(text))
+    return {
+        "words": words,
+        "sentences": n_sentences,
+        "reading_minutes": max(1, round(words / 200)) if words else 0,
+    }
+
+
 @dataclass
 class Cluster:
     members: list[int] = field(default_factory=list)
@@ -170,8 +225,7 @@ def cluster_sentences(sents: list[str]) -> list[Cluster]:
                 best, best_score = ci, score
         if best >= 0 and (best_score > 0.15 or len(clusters) < target or len(clusters[best].members) == 1):
             clusters[best].members.append(i)
-            clusters[best].words = cl_word_sum = clusters[best].words + vec
-            clusters[best].words = cl_word_sum
+            clusters[best].words = clusters[best].words + vec
         else:
             clusters.append(Cluster(members=[i], words=vec))
     return clusters

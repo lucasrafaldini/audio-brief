@@ -18,7 +18,8 @@ Works on **Linux** and **macOS**.
 - 🎙️ Record from your microphone or transcribe existing audio files
 - 🌍 Auto language detection (or force it with `--language`)
 - 🧠 Extractive summary, keyword extraction, and mind maps (Markmap + Mermaid)
-- 📄 Subtitles in SRT/VTT + a single bundled `report.md`
+- 📄 Subtitles in SRT/VTT + bundled `report.md` and `report.html`
+- 🩺 `doctor` command checks your environment (Whisper, ffmpeg, mic)
 - ⚡ Queue multiple files, optionally in parallel with `--jobs N`
 - 🖥️ Friendly CLI: sensible defaults, zero prompts when piped/CI
 
@@ -61,6 +62,7 @@ pipx install .         # isolated CLI install
 ```
 audio-brief record [seconds] [--model M] [--language L] [--out DIR] [--keep-raw]
 audio-brief transcribe <file> [file2 ...] [--jobs N] [--model M] [--language L] [--out DIR]
+audio-brief doctor
 audio-brief --version
 ```
 
@@ -70,7 +72,12 @@ audio-brief --version
 | `--language` | 2–3 letter ISO code (e.g. `en`, `pt`, `es`). Skips the prompt; auto-detect if unset |
 | `--out DIR` | Choose the output directory |
 | `--jobs N` | Transcribe N files in parallel |
+| `--summary-n N` | Max sentences in the summary (default: 8) |
+| `--keywords-n N` | Max keywords extracted (default: 15) |
 | `--keep-raw` | Keep the recorded `.wav` inside the output folder (`record` only) |
+
+Run `audio-brief doctor` first if something doesn't work — it checks
+Python, Whisper, recording backends and (on macOS) lists audio devices.
 
 Examples:
 
@@ -100,6 +107,7 @@ directory for recordings):
 | `mindmap.md` | Mind map (paste into [markmap.js.org](https://markmap.js.org)) |
 | `mindmap.mmd` | Mind map in Mermaid ([mermaid.live](https://mermaid.live)) |
 | `report.md` | Everything bundled in one Markdown file |
+| `report.html` | Same report as a self-contained web page (no viewer needed) |
 
 ## ⚙️ Recording backends
 

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "audio-brief"
-version = "0.2.0"
+version = "0.3.0"
 description = "Record or transcribe audio with Whisper and get summaries, mindmaps, keywords and transcripts."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -23,9 +23,13 @@ dependencies = ["openai-whisper>=20231117"]
 
 [project.optional-dependencies]
 macos-app = ["py2app"]
+dev = ["pytest>=7"]
 
 [project.scripts]
 audio-brief = "audio_brief.cli:main"
 
 [tool.setuptools]
 packages = ["audio_brief"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

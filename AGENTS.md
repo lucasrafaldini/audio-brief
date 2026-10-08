@@ -7,19 +7,24 @@ OpenAI Whisper and produces summaries, keywords, mind maps and transcripts.
 
 ## Layout
 
-- `audio_brief/cli.py` — argparse CLI (`record` / `transcribe` subcommands). Thin layer; keep it.
-- `audio_brief/recorder.py` — mic recording backends (`arecord`, `ffmpeg`, `sox rec`)
-- `audio_brief/textproc.py` — offline extractive summarization, keywords, clustering
-- `audio_brief/writers.py` — output writers (txt/srt/vtt/json/md)
+- `audio_brief/cli.py` — argparse CLI (`record` / `transcribe` / `doctor`). Thin layer; model cached via `_get_model()`, outputs via `writers.write_all()`
+- `audio_brief/recorder.py` — mic recording backends (`arecord`, `ffmpeg`, `sox rec`); `backend_status()`, `list_devices()`
+- `audio_brief/textproc.py` — offline extractive summarization, keywords, clustering, `stats()`; stopwords EN/ES/FR/DE/PT
+- `audio_brief/writers.py` — `write_all()` writes all 10 artifacts (txt/srt/vtt/json/md/mmd/html); summary/keywords computed once
+- `tests/` — pytest suite (Whisper stubbed, see `test_cli.py::fake_whisper`)
+- `.claude/skills/audio-brief/SKILL.md` — Claude skill for this repo
 - `audio-brief` — bash launcher (venv → installed entry point → python3)
 - `install.sh` — one-shot setup
 - `setup.py` — py2app config for the macOS app bundle
+- `.github/workflows/ci.yml` — CI on Linux + macOS, Python 3.10–3.12
 
 ## Setup / test
 
 ```bash
 ./install.sh                 # creates .venv, installs -e .
+./audio-brief doctor         # environment check
 ./audio-brief --help
+python3 -m pytest tests/ -q  # offline, no Whisper download needed
 python3 -m py_compile audio_brief/*.py
 ```
 

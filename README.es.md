@@ -18,7 +18,8 @@ Funciona en **Linux** y **macOS**.
 - 🎙️ Graba desde el micrófono o transcribe archivos de audio existentes
 - 🌍 Detección automática de idioma (o fuerza con `--language`)
 - 🧠 Resumen extractivo, extracción de palabras clave y mapas mentales (Markmap + Mermaid)
-- 📄 Subtítulos en SRT/VTT + un `report.md` todo-en-uno
+- 📄 Subtítulos en SRT/VTT + `report.md` y `report.html` todo-en-uno
+- 🩺 El comando `doctor` revisa tu entorno (Whisper, ffmpeg, micrófono)
 - ⚡ Cola de múltiples archivos, opcionalmente en paralelo con `--jobs N`
 - 🖥️ CLI amigable: valores por defecto sensatos, sin preguntas en pipe/CI
 
@@ -61,6 +62,7 @@ pipx install .         # instalación aislada del CLI
 ```
 audio-brief record [segundos] [--model M] [--language L] [--out DIR] [--keep-raw]
 audio-brief transcribe <archivo> [archivo2 ...] [--jobs N] [--model M] [--language L] [--out DIR]
+audio-brief doctor
 audio-brief --version
 ```
 
@@ -70,7 +72,12 @@ audio-brief --version
 | `--language` | Código ISO de 2–3 letras (p. ej. `en`, `pt`, `es`). Salta la pregunta; detecta automático si no se define |
 | `--out DIR` | Elige el directorio de salida |
 | `--jobs N` | Transcribe N archivos en paralelo |
+| `--summary-n N` | Máximo de frases en el resumen (por defecto: 8) |
+| `--keywords-n N` | Máximo de palabras clave extraídas (por defecto: 15) |
 | `--keep-raw` | Conserva el `.wav` grabado dentro de la carpeta de salida (solo `record`) |
+
+Ejecuta `audio-brief doctor` primero si algo no funciona — revisa
+Python, Whisper, backends de grabación y (en macOS) lista los dispositivos de audio.
 
 Ejemplos:
 
@@ -100,6 +107,7 @@ directorio actual para grabaciones):
 | `mindmap.md` | Mapa mental (pega en [markmap.js.org](https://markmap.js.org)) |
 | `mindmap.mmd` | Mapa mental en Mermaid ([mermaid.live](https://mermaid.live)) |
 | `report.md` | Todo en un único Markdown |
+| `report.html` | Mismo informe como página web autocontenida (sin visor necesario) |
 
 ## ⚙️ Backends de grabación
 

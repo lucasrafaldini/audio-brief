@@ -92,6 +92,8 @@ def record(duration: int, rate: int = 16000, out_path: Path | None = None) -> Pa
 
     Returns the path to a 16-bit mono WAV file.
     """
+    if duration <= 0:
+        raise SystemExit(f"Invalid duration {duration!r}: must be a positive number of seconds.")
     out_path = out_path or Path(tempfile.gettempdir()) / "audio-brief-tmp.wav"
     if out_path.exists():
         out_path.unlink()
@@ -119,3 +121,22 @@ def record(duration: int, rate: int = 16000, out_path: Path | None = None) -> Pa
 
     print(f"Saved recording to {out_path}")
     return out_path
+
+
+def backend_status() -> dict[str, bool]:
+    """Check which recording backends are installed."""
+    return {b: _available(b) for b in BACKENDS}
+
+
+def list_devices() -> str:
+    """List audio input devices (macOS avfoundation only, '' elsewhere)."""
+    if platform.system() != "Darwin":
+        return ""
+    try:
+        proc = subprocess.run(
+            ["ffmpeg", "-hide_banner", "-f", "avfoundation", "-list_devices", "true", "-i", ""],
+            capture_output=True, text=True, timeout=15, check=False,
+        )
+        return proc.stderr.strip()
+    except (OSError, subprocess.TimeoutExpired):
+        return ""
