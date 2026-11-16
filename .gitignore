@@ -1,8 +1,8 @@
+# downloaded benchmark corpora (make bench-data)
+benchmarks/data/
+# local environment and caches
 .venv/
-*.pyc
 __pycache__/
-dist/
-build/
+.pytest_cache/
+# default output folders of `audio-brief record/transcribe`
 audio-brief-*/
-example-output/
-*.wav

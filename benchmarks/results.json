@@ -1,0 +1,7771 @@
+{
+ "generated": "2026-11-15T22:55:00",
+ "quick": false,
+ "config": {
+  "wiki_k": [
+   3,
+   5,
+   8
+  ],
+  "trials": 20,
+  "news_trials": 20,
+  "max_articles": null,
+  "sizes": [
+   10000,
+   30000,
+   100000,
+   300000,
+   1000000
+  ],
+  "repeats": {
+   "10000": 5,
+   "30000": 5,
+   "100000": 3,
+   "300000": 2,
+   "1000000": 1
+  },
+  "per_address": 40,
+  "asr_long_minutes": 5,
+  "parallel_long_minutes": 4
+ },
+ "environment": {
+  "python": "3.12.3",
+  "implementation": "CPython",
+  "os": "Linux 6.18.44-fc-v310",
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.60GHz",
+  "cores": 4,
+  "memory": "16 GB",
+  "git_commit": "e1f9ee4",
+  "uncommitted_changes_in_audio_brief": true
+ },
+ "data": {
+  "created": "2026-11-15 22:07:33",
+  "python": "3.12.3",
+  "sources": {
+   "gensim": {
+    "what": "gensim 4.4.0 source distribution (its test fixtures contain both corpora)",
+    "url": "https://files.pythonhosted.org/packages/1a/80/fe9d2e1ace968041814dbcfce4e8499a643a36c41267fa4b6c4f54cce420/gensim-4.4.0.tar.gz",
+    "sha256": "a3f5b626da5518e79a479140361c663089fe7998df8ba52d56e1ded71ac5bdf5",
+    "size": 23260095
+   },
+   "sotu": {
+    "what": "@stdlib/datasets-sotu 0.2.3 (npm)",
+    "url": "https://registry.npmjs.org/@stdlib/datasets-sotu/-/datasets-sotu-0.2.3.tgz",
+    "sha512": "QbspCBwsy6S6io8mwmZoPh55YBCj4X3RwoGldDneFZU8WI9Vjrdq/l01beIF0qSiJBFlsngiIz8ySmmRjFm8aA==",
+    "size": 7217658
+   },
+   "pocketsphinx": {
+    "what": "pocketsphinx 5.1.1 source distribution (LibriVox test utterances)",
+    "url": "https://files.pythonhosted.org/packages/61/e7/13e0e787ff467218de880310d79cba14424f13b87171ac44af0bde1e428c/pocketsphinx-5.1.1.tar.gz",
+    "sha256": "675778b309a22dfc9b7d37f7621976bba491d2a5f8c59696bd77fd6d07271355",
+    "size": 34158862
+   },
+   "pyannote": {
+    "what": "pyannote.audio 4.0.7 source distribution (sample conversation + STM transcript)",
+    "url": "https://files.pythonhosted.org/packages/6d/d7/03b1d00d431c7be1d98635fefb99c2da64d9b84b4b8a06d5302666a96c88/pyannote_audio-4.0.7.tar.gz",
+    "sha256": "3a903dfb5ca711d134cc2522561c9158b186836f5d62e8a57c46c6648e8a8229",
+    "size": 13963479
+   },
+   "silero": {
+    "what": "silero-vad 6.2.3 source distribution (untranscribed test/example speech)",
+    "url": "https://files.pythonhosted.org/packages/32/17/df6bfc8f659fc5c1e082c18275be67c5a581bd2d07734a65b141fc983ccf/silero_vad-6.2.3.tar.gz",
+    "sha256": "d7a23b09202be4953915cb9173089bb307eed0418a9bd4794d9ec5af07fa1996",
+    "size": 29276676
+   }
+  },
+  "datasets": {
+   "wikipedia": {
+    "file": "wikipedia.jsonl",
+    "records": 106,
+    "sha256": "f8cb9f62985f90f4dcb5ae02d42866829b330da74bea562c006010d2daa9a59f",
+    "bytes": 2591507,
+    "words": 403601,
+    "licence": "CC BY-SA 3.0 (Wikipedia contributors); redistributed in gensim's test data (LGPL-2.1 package)"
+   },
+   "newsgroups": {
+    "file": "newsgroups.jsonl",
+    "records": 200,
+    "sha256": "ac5f6ef0a02be431e39b57c9a0893c28624056192c6343c4de9ed27b9693d479",
+    "bytes": 245888,
+    "words": 39543,
+    "licence": "20 Newsgroups (Ken Lang, 1995), widely redistributed for research; sample from gensim's test data"
+   },
+   "sotu": {
+    "file": "sotu.jsonl",
+    "records": 233,
+    "sha256": "a0df50c6d33f7dcee610967d971a261c8641498fb3b78a0c5311969fb46e5e38",
+    "bytes": 10782974,
+    "words": 1794884,
+    "licence": "Works of the U.S. Government (no copyright); dataset PDDL-1.0 / CC0 (@stdlib)"
+   },
+   "asr": {
+    "file": "asr/items.json",
+    "records": 8,
+    "sha256": "f6a3be332183a8d468fb7cb5d8a1d086898c03ede54dcf5aed408d739dc1e6f1",
+    "bytes": 9088467,
+    "words": 152,
+    "licence": "LibriVox recordings: public domain (via PocketSphinx, BSD-2); conversation sample: distributed with pyannote.audio (MIT), origin not documented there; Silero VAD test audio (MIT package); used locally for measurement only, not redistributed"
+   }
+  }
+ },
+ "experiments": {
+  "topics_wikipedia": {
+   "source": "wikipedia",
+   "settings": [
+    3,
+    5,
+    8
+   ],
+   "trials": 20,
+   "runs": [
+    {
+     "k": 3,
+     "trial": 0,
+     "seed": 3000,
+     "sentences": 120,
+     "words": 2573,
+     "topics": [
+      "Algeria",
+      "Aardvark",
+      "Academy Awards"
+     ],
+     "placed": 0.9166666666666666,
+     "branches": 6,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5359360030422865,
+       "ari": 0.5114461194863205
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.39355600651239814,
+       "ari": 0.2164084237052914
+      },
+      "LDA (true k)": {
+       "nmi": 0.008469915705053817,
+       "ari": -0.008101028350934417
+      },
+      "random clusters (true k)": {
+       "nmi": 0.03803764566053737,
+       "ari": 0.02806732548170209
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.6666666666666667,
+      "roots": 5,
+      "nodes": 58
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 1.0,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 1,
+     "seed": 3001,
+     "sentences": 120,
+     "words": 2823,
+     "topics": [
+      "Ambiguity",
+      "Allah",
+      "Anthropology"
+     ],
+     "placed": 0.8,
+     "branches": 6,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.40837693940129655,
+       "ari": 0.32864396403749896
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.40211705677535386,
+       "ari": 0.23160961048870674
+      },
+      "LDA (true k)": {
+       "nmi": 0.02105860782827224,
+       "ari": 0.005652260771126057
+      },
+      "random clusters (true k)": {
+       "nmi": 0.015577358311587651,
+       "ari": -0.0010026596867480052
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 2.0,
+      "roots": 6,
+      "nodes": 66
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.6,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 2,
+     "seed": 3002,
+     "sentences": 120,
+     "words": 2422,
+     "topics": [
+      "Analysis of variance",
+      "Albert Einstein",
+      "Anarchism"
+     ],
+     "placed": 0.8333333333333334,
+     "branches": 7,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.4342732859232128,
+       "ari": 0.3670980496797982
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.2721719413961503,
+       "ari": 0.10874735284276055
+      },
+      "LDA (true k)": {
+       "nmi": 0.0010431345207762312,
+       "ari": -0.015838602670270298
+      },
+      "random clusters (true k)": {
+       "nmi": 0.015179841639983888,
+       "ari": -0.0017977075251824886
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.6666666666666667,
+      "roots": 5,
+      "nodes": 47
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 3,
+     "seed": 3003,
+     "sentences": 120,
+     "words": 2289,
+     "topics": [
+      "Azerbaijan",
+      "Apollo 11",
+      "Andrei Tarkovsky"
+     ],
+     "placed": 0.8416666666666667,
+     "branches": 7,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5430459515029442,
+       "ari": 0.4878701449967895
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.44357167883488735,
+       "ari": 0.2953099137320095
+      },
+      "LDA (true k)": {
+       "nmi": 0.05359002337668255,
+       "ari": 0.04433083941265369
+      },
+      "random clusters (true k)": {
+       "nmi": 0.026949068321921586,
+       "ari": 0.015888068320283114
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.5,
+      "generic_roots": 0.0,
+      "fragmentation": 1.3333333333333333,
+      "roots": 4,
+      "nodes": 62
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 4,
+     "seed": 3004,
+     "sentences": 120,
+     "words": 2926,
+     "topics": [
+      "Art",
+      "Amateur astronomy",
+      "Assistive technology"
+     ],
+     "placed": 0.8916666666666667,
+     "branches": 5,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.6546461162030853,
+       "ari": 0.5915307466315469
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.25022772795112425,
+       "ari": 0.12581084101765025
+      },
+      "LDA (true k)": {
+       "nmi": 0.017665230828538964,
+       "ari": 0.0002846892537714736
+      },
+      "random clusters (true k)": {
+       "nmi": 0.013595096328338312,
+       "ari": -0.0019099960895623237
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8,
+      "generic_roots": 0.0,
+      "fragmentation": 1.6666666666666667,
+      "roots": 5,
+      "nodes": 71
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 5,
+     "seed": 3005,
+     "sentences": 120,
+     "words": 2711,
+     "topics": [
+      "Abraham Lincoln",
+      "Albert Einstein",
+      "Asia"
+     ],
+     "placed": 0.825,
+     "branches": 6,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.4536717940174253,
+       "ari": 0.42245691061734253
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.4720384242973208,
+       "ari": 0.29809002928475464
+      },
+      "LDA (true k)": {
+       "nmi": 0.0355742903221697,
+       "ari": 0.02023306918825331
+      },
+      "random clusters (true k)": {
+       "nmi": 0.007857919413164226,
+       "ari": -0.007608062418033768
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.75,
+      "generic_roots": 0.0,
+      "fragmentation": 1.3333333333333333,
+      "roots": 4,
+      "nodes": 42
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 6,
+     "seed": 3006,
+     "sentences": 120,
+     "words": 2377,
+     "topics": [
+      "Ayn Rand",
+      "Ambiguity",
+      "Aardwolf"
+     ],
+     "placed": 0.8166666666666667,
+     "branches": 15,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5426624862756952,
+       "ari": 0.36382491820227836
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.42903869286812163,
+       "ari": 0.3086444982921204
+      },
+      "LDA (true k)": {
+       "nmi": 0.03996301266251736,
+       "ari": 0.024042313620162323
+      },
+      "random clusters (true k)": {
+       "nmi": 0.010362281499576628,
+       "ari": -0.006705416116248349
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.3333333333333333,
+      "roots": 4,
+      "nodes": 35
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 1.0,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 7,
+     "seed": 3007,
+     "sentences": 120,
+     "words": 2928,
+     "topics": [
+      "Atlantic Ocean",
+      "Alberta",
+      "Art"
+     ],
+     "placed": 0.8583333333333333,
+     "branches": 6,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.4795228760279497,
+       "ari": 0.4226703341409063
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.363735160786704,
+       "ari": 0.2291709182709387
+      },
+      "LDA (true k)": {
+       "nmi": 0.014056885675494969,
+       "ari": -0.0011446953176132042
+      },
+      "random clusters (true k)": {
+       "nmi": 0.004392952226747267,
+       "ari": -0.012142186766776161
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 2.0,
+      "roots": 6,
+      "nodes": 68
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.6,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 8,
+     "seed": 3008,
+     "sentences": 120,
+     "words": 3159,
+     "topics": [
+      "A Modest Proposal",
+      "Art",
+      "Albedo"
+     ],
+     "placed": 0.85,
+     "branches": 6,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5520315586127129,
+       "ari": 0.530117872269429
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.438973586408594,
+       "ari": 0.28333811299110984
+      },
+      "LDA (true k)": {
+       "nmi": 0.061110120202126535,
+       "ari": 0.03880281073682368
+      },
+      "random clusters (true k)": {
+       "nmi": 0.0054820941745728595,
+       "ari": -0.010915777702455649
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.3333333333333333,
+      "roots": 4,
+      "nodes": 65
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 9,
+     "seed": 3009,
+     "sentences": 120,
+     "words": 2520,
+     "topics": [
+      "Azerbaijan",
+      "Asia",
+      "Ayn Rand"
+     ],
+     "placed": 0.9,
+     "branches": 6,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5078019467594131,
+       "ari": 0.5011637696231367
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.2815983861788382,
+       "ari": 0.15852692713833158
+      },
+      "LDA (true k)": {
+       "nmi": 0.009792412879171498,
+       "ari": -0.0061983526132478465
+      },
+      "random clusters (true k)": {
+       "nmi": 0.020102112444303866,
+       "ari": 0.005000279866410434
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.3333333333333333,
+      "roots": 4,
+      "nodes": 47
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 1.0,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 10,
+     "seed": 3010,
+     "sentences": 120,
+     "words": 2610,
+     "topics": [
+      "Angola",
+      "Abraham Lincoln",
+      "Anthropology"
+     ],
+     "placed": 0.825,
+     "branches": 6,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.44388804844194496,
+       "ari": 0.3236998527959454
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.2994438277898058,
+       "ari": 0.17034489143361747
+      },
+      "LDA (true k)": {
+       "nmi": 0.00864834188324974,
+       "ari": -0.007425080566360995
+      },
+      "random clusters (true k)": {
+       "nmi": 0.030753165123476582,
+       "ari": 0.018563879159253085
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 2.0,
+      "roots": 6,
+      "nodes": 66
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.6,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 11,
+     "seed": 3011,
+     "sentences": 120,
+     "words": 2337,
+     "topics": [
+      "Apollo 11",
+      "Andre Agassi",
+      "Algeria"
+     ],
+     "placed": 0.8916666666666667,
+     "branches": 8,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5910555214306538,
+       "ari": 0.598205639004813
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.45728200662000795,
+       "ari": 0.2801379815529867
+      },
+      "LDA (true k)": {
+       "nmi": 0.020514481884209797,
+       "ari": 0.006490880788208585
+      },
+      "random clusters (true k)": {
+       "nmi": 0.006095781775932135,
+       "ari": -0.010168471880980965
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 3,
+      "nodes": 44
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 12,
+     "seed": 3012,
+     "sentences": 120,
+     "words": 2208,
+     "topics": [
+      "Andrei Tarkovsky",
+      "Analysis of variance",
+      "Art"
+     ],
+     "placed": 0.8583333333333333,
+     "branches": 3,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.6053859387353868,
+       "ari": 0.6418402606377728
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.5066548804340293,
+       "ari": 0.4103868115489582
+      },
+      "LDA (true k)": {
+       "nmi": 0.01853621034245576,
+       "ari": 0.0033150260751850045
+      },
+      "random clusters (true k)": {
+       "nmi": 0.02850012734370996,
+       "ari": 0.01346263000951338
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 3,
+      "nodes": 55
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 13,
+     "seed": 3013,
+     "sentences": 120,
+     "words": 2657,
+     "topics": [
+      "Art",
+      "Achilles",
+      "Abraham Lincoln"
+     ],
+     "placed": 0.8916666666666667,
+     "branches": 8,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.6260223320692455,
+       "ari": 0.6410555726218166
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.4958812384858808,
+       "ari": 0.3942028398797656
+      },
+      "LDA (true k)": {
+       "nmi": 0.03478481168258895,
+       "ari": 0.018536431976677564
+      },
+      "random clusters (true k)": {
+       "nmi": 0.00655103717029247,
+       "ari": -0.010001405287593431
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.5,
+      "generic_roots": 0.0,
+      "fragmentation": 1.3333333333333333,
+      "roots": 4,
+      "nodes": 56
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 14,
+     "seed": 3014,
+     "sentences": 120,
+     "words": 2897,
+     "topics": [
+      "Ayn Rand",
+      "Asphalt",
+      "Asia"
+     ],
+     "placed": 0.8833333333333333,
+     "branches": 9,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5047387702308463,
+       "ari": 0.4572247028054445
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.5282280936600878,
+       "ari": 0.3844566489421429
+      },
+      "LDA (true k)": {
+       "nmi": 0.11333422383936029,
+       "ari": 0.10989879277841266
+      },
+      "random clusters (true k)": {
+       "nmi": 0.02066054885997401,
+       "ari": 0.006294801197183848
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8,
+      "generic_roots": 0.0,
+      "fragmentation": 1.6666666666666667,
+      "roots": 5,
+      "nodes": 72
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 15,
+     "seed": 3015,
+     "sentences": 120,
+     "words": 2571,
+     "topics": [
+      "Aardvark",
+      "Achilles",
+      "Abraham Lincoln"
+     ],
+     "placed": 0.8666666666666667,
+     "branches": 6,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5617468215646061,
+       "ari": 0.5710245065357497
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.37879525670459663,
+       "ari": 0.22492027787564253
+      },
+      "LDA (true k)": {
+       "nmi": 0.02789492088375479,
+       "ari": 0.012684180892991831
+      },
+      "random clusters (true k)": {
+       "nmi": 0.013380564332127564,
+       "ari": -0.0011666538511508776
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.3333333333333333,
+      "roots": 4,
+      "nodes": 44
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 16,
+     "seed": 3016,
+     "sentences": 120,
+     "words": 2373,
+     "topics": [
+      "Aardvark",
+      "Achilles",
+      "Afghanistan"
+     ],
+     "placed": 0.8666666666666667,
+     "branches": 8,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5974808312724661,
+       "ari": 0.5655799091317589
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.5031136522626982,
+       "ari": 0.3827206324998997
+      },
+      "LDA (true k)": {
+       "nmi": 0.0117866941260141,
+       "ari": -0.0038450477701918264
+      },
+      "random clusters (true k)": {
+       "nmi": 0.026883663064128805,
+       "ari": 0.013905784582786533
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.3333333333333333,
+      "roots": 4,
+      "nodes": 49
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 17,
+     "seed": 3017,
+     "sentences": 120,
+     "words": 2583,
+     "topics": [
+      "Albania",
+      "Abraham Lincoln",
+      "Albedo"
+     ],
+     "placed": 0.85,
+     "branches": 6,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.530817795969985,
+       "ari": 0.5235347257250497
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.3973186434623209,
+       "ari": 0.24956938074909732
+      },
+      "LDA (true k)": {
+       "nmi": 0.05533071076125668,
+       "ari": 0.047337496474334474
+      },
+      "random clusters (true k)": {
+       "nmi": 0.0027165120192175177,
+       "ari": -0.014030636043062112
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.3333333333333333,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 3,
+      "nodes": 56
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 18,
+     "seed": 3018,
+     "sentences": 120,
+     "words": 2660,
+     "topics": [
+      "Albania",
+      "Andre Agassi",
+      "Andrei Tarkovsky"
+     ],
+     "placed": 0.9083333333333333,
+     "branches": 5,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5427317890365386,
+       "ari": 0.5408025157087814
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.5813959499544981,
+       "ari": 0.4697042659389881
+      },
+      "LDA (true k)": {
+       "nmi": 0.10665436369137828,
+       "ari": 0.08486148784441705
+      },
+      "random clusters (true k)": {
+       "nmi": 0.027846733398290937,
+       "ari": 0.00951624429809064
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.75,
+      "generic_roots": 0.0,
+      "fragmentation": 1.3333333333333333,
+      "roots": 4,
+      "nodes": 57
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 3,
+     "trial": 19,
+     "seed": 3019,
+     "sentences": 120,
+     "words": 2461,
+     "topics": [
+      "Atlantic Ocean",
+      "Alberta",
+      "Algeria"
+     ],
+     "placed": 0.8666666666666667,
+     "branches": 6,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.4245885390363461,
+       "ari": 0.3288182918127385
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.2791997358825152,
+       "ari": 0.1501771337275614
+      },
+      "LDA (true k)": {
+       "nmi": 0.06663143952159813,
+       "ari": 0.05986717842400167
+      },
+      "random clusters (true k)": {
+       "nmi": 0.036806521335858565,
+       "ari": 0.019062176864631568
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8333333333333334,
+      "generic_roots": 0.0,
+      "fragmentation": 2.0,
+      "roots": 6,
+      "nodes": 65
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.6666666666666666,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.5333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 0,
+     "seed": 5000,
+     "sentences": 200,
+     "words": 4457,
+     "topics": [
+      "Asphalt",
+      "Angola",
+      "Albert Einstein",
+      "Azerbaijan",
+      "Ayn Rand"
+     ],
+     "placed": 0.835,
+     "branches": 9,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.49281052177834483,
+       "ari": 0.38735476665251106
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.2539204238054039,
+       "ari": 0.09277945651735389
+      },
+      "LDA (true k)": {
+       "nmi": 0.0694137847118924,
+       "ari": 0.026666180539648546
+      },
+      "random clusters (true k)": {
+       "nmi": 0.019319559874364983,
+       "ari": -0.005737050279135042
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8571428571428571,
+      "generic_roots": 0.0,
+      "fragmentation": 1.4,
+      "roots": 7,
+      "nodes": 86
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.5333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.6666666666666666,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 1,
+     "seed": 5001,
+     "sentences": 200,
+     "words": 3987,
+     "topics": [
+      "Ambiguity",
+      "Albania",
+      "Ayn Rand",
+      "Abraham Lincoln",
+      "Algeria"
+     ],
+     "placed": 0.875,
+     "branches": 9,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5448736906532594,
+       "ari": 0.48116897381343926
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.29531843805560126,
+       "ari": 0.10092612442866444
+      },
+      "LDA (true k)": {
+       "nmi": 0.03547289633979771,
+       "ari": 0.010249731736595586
+      },
+      "random clusters (true k)": {
+       "nmi": 0.01778089709971652,
+       "ari": -0.006981463942632932
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.2,
+      "roots": 6,
+      "nodes": 72
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.8
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 0.8
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 2,
+     "seed": 5002,
+     "sentences": 200,
+     "words": 4500,
+     "topics": [
+      "A Modest Proposal",
+      "Achilles",
+      "Anarchism",
+      "Alberta",
+      "Allah"
+     ],
+     "placed": 0.85,
+     "branches": 7,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.7686781731896768,
+       "ari": 0.726525017135024
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.5418973913695583,
+       "ari": 0.31171877166639594
+      },
+      "LDA (true k)": {
+       "nmi": 0.052557982480007384,
+       "ari": 0.018014924073971497
+      },
+      "random clusters (true k)": {
+       "nmi": 0.015864086167453707,
+       "ari": -0.007165629801254423
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 5,
+      "nodes": 84
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 1.0,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 3,
+     "seed": 5003,
+     "sentences": 200,
+     "words": 4402,
+     "topics": [
+      "Alchemy",
+      "Albert Einstein",
+      "Ambiguity",
+      "Alberta",
+      "Allah"
+     ],
+     "placed": 0.88,
+     "branches": 13,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5876841085599188,
+       "ari": 0.5040580742099579
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.44026033686744664,
+       "ari": 0.19470364897485673
+      },
+      "LDA (true k)": {
+       "nmi": 0.13232021443009218,
+       "ari": 0.09783789798135947
+      },
+      "random clusters (true k)": {
+       "nmi": 0.026080253599463678,
+       "ari": 0.00044000952826388543
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 5,
+      "nodes": 74
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.8
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.6
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 4,
+     "seed": 5004,
+     "sentences": 200,
+     "words": 4646,
+     "topics": [
+      "Asia",
+      "Andrei Tarkovsky",
+      "Algeria",
+      "Art",
+      "A Modest Proposal"
+     ],
+     "placed": 0.84,
+     "branches": 8,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5647883792899212,
+       "ari": 0.5271012604337337
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.5169869486831946,
+       "ari": 0.3676353104662296
+      },
+      "LDA (true k)": {
+       "nmi": 0.03166905989613423,
+       "ari": 0.006705143104772785
+      },
+      "random clusters (true k)": {
+       "nmi": 0.06166033033202375,
+       "ari": 0.03281713657189431
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 5,
+      "nodes": 76
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 5,
+     "seed": 5005,
+     "sentences": 200,
+     "words": 4048,
+     "topics": [
+      "Assistive technology",
+      "Analysis of variance",
+      "Abraham Lincoln",
+      "Allah",
+      "Art"
+     ],
+     "placed": 0.855,
+     "branches": 5,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.7209565687479782,
+       "ari": 0.6881391859242666
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.4025341611751815,
+       "ari": 0.13756830323589753
+      },
+      "LDA (true k)": {
+       "nmi": 0.034221514399133734,
+       "ari": 0.008416334146440397
+      },
+      "random clusters (true k)": {
+       "nmi": 0.018749100413796713,
+       "ari": -0.005460636382148718
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 5,
+      "nodes": 84
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 6,
+     "seed": 5006,
+     "sentences": 200,
+     "words": 4296,
+     "topics": [
+      "Alchemy",
+      "Anthropology",
+      "Academy Awards",
+      "Andre Agassi",
+      "Atlantic Ocean"
+     ],
+     "placed": 0.875,
+     "branches": 5,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.6605300715243129,
+       "ari": 0.6371566182425034
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.5078079577385676,
+       "ari": 0.3209287747586884
+      },
+      "LDA (true k)": {
+       "nmi": 0.040269437861456044,
+       "ari": 0.012590738563279066
+      },
+      "random clusters (true k)": {
+       "nmi": 0.020139816550538477,
+       "ari": -0.004330011100748281
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 5,
+      "nodes": 90
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 7,
+     "seed": 5007,
+     "sentences": 200,
+     "words": 4130,
+     "topics": [
+      "Algeria",
+      "Atlantic Ocean",
+      "Angola",
+      "Alberta",
+      "Ayn Rand"
+     ],
+     "placed": 0.85,
+     "branches": 7,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5217771071262614,
+       "ari": 0.4359583137642595
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.24262983103491775,
+       "ari": 0.08255716340491433
+      },
+      "LDA (true k)": {
+       "nmi": 0.041699881893750186,
+       "ari": 0.0136675086546421
+      },
+      "random clusters (true k)": {
+       "nmi": 0.02620078153576029,
+       "ari": 0.00043442525777092104
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.4,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 5,
+      "nodes": 84
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.6666666666666666,
+       "coverage": 0.8
+      },
+      "frequency": {
+       "precision": 0.5333333333333333,
+       "coverage": 0.8
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 8,
+     "seed": 5008,
+     "sentences": 200,
+     "words": 4444,
+     "topics": [
+      "Anarchism",
+      "Alchemy",
+      "Ambiguity",
+      "Apollo 11",
+      "Aardwolf"
+     ],
+     "placed": 0.77,
+     "branches": 14,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.44250100895658634,
+       "ari": 0.31175584084274544
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.3370886998709863,
+       "ari": 0.09839410843963109
+      },
+      "LDA (true k)": {
+       "nmi": 0.04138856677192728,
+       "ari": 0.01380041190249563
+      },
+      "random clusters (true k)": {
+       "nmi": 0.03530541034268284,
+       "ari": 0.008383733155462599
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 0.8,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.25,
+      "roots": 5,
+      "nodes": 60
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.8
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 9,
+     "seed": 5009,
+     "sentences": 200,
+     "words": 3943,
+     "topics": [
+      "Aardwolf",
+      "Apollo 11",
+      "Atlantic Ocean",
+      "Analysis of variance",
+      "A Modest Proposal"
+     ],
+     "placed": 0.86,
+     "branches": 13,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5328358396534684,
+       "ari": 0.4374976622738194
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.4452269179912104,
+       "ari": 0.21047939948771727
+      },
+      "LDA (true k)": {
+       "nmi": 0.062172330209676455,
+       "ari": 0.029813803821161375
+      },
+      "random clusters (true k)": {
+       "nmi": 0.03545982147510507,
+       "ari": 0.006022797216227236
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.6666666666666666,
+      "generic_roots": 0.0,
+      "fragmentation": 1.2,
+      "roots": 6,
+      "nodes": 71
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.6
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 10,
+     "seed": 5010,
+     "sentences": 200,
+     "words": 4755,
+     "topics": [
+      "Aardvark",
+      "Anarchism",
+      "Allah",
+      "Assistive technology",
+      "Asphalt"
+     ],
+     "placed": 0.865,
+     "branches": 13,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.6325949224457721,
+       "ari": 0.5715546945595665
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.561677844512514,
+       "ari": 0.347520838940612
+      },
+      "LDA (true k)": {
+       "nmi": 0.0694254084405103,
+       "ari": 0.03897271577768693
+      },
+      "random clusters (true k)": {
+       "nmi": 0.013286041461464608,
+       "ari": -0.00954208080005817
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 5,
+      "nodes": 74
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.6
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 11,
+     "seed": 5011,
+     "sentences": 200,
+     "words": 4268,
+     "topics": [
+      "Analysis of variance",
+      "Alchemy",
+      "Aristotle",
+      "Altruism",
+      "Art"
+     ],
+     "placed": 0.805,
+     "branches": 8,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5130508563627694,
+       "ari": 0.4066968703913206
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.4501920253966864,
+       "ari": 0.23639367016362584
+      },
+      "LDA (true k)": {
+       "nmi": 0.04885151033731824,
+       "ari": 0.01926900797363054
+      },
+      "random clusters (true k)": {
+       "nmi": 0.045962823070027095,
+       "ari": 0.012721952955625695
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8333333333333334,
+      "generic_roots": 0.0,
+      "fragmentation": 1.2,
+      "roots": 6,
+      "nodes": 77
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.6,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 12,
+     "seed": 5012,
+     "sentences": 200,
+     "words": 4831,
+     "topics": [
+      "Aristotle",
+      "Academy Awards",
+      "Atlantic Ocean",
+      "Anarchism",
+      "Ayn Rand"
+     ],
+     "placed": 0.865,
+     "branches": 7,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.603856773883428,
+       "ari": 0.550423104339498
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.3701890287810775,
+       "ari": 0.11517121346859874
+      },
+      "LDA (true k)": {
+       "nmi": 0.0613313390752197,
+       "ari": 0.02494121839394971
+      },
+      "random clusters (true k)": {
+       "nmi": 0.027545639995120337,
+       "ari": 0.0006931860444873509
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8333333333333334,
+      "generic_roots": 0.0,
+      "fragmentation": 1.2,
+      "roots": 6,
+      "nodes": 93
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 13,
+     "seed": 5013,
+     "sentences": 200,
+     "words": 4969,
+     "topics": [
+      "A Modest Proposal",
+      "Allah",
+      "Alberta",
+      "Amateur astronomy",
+      "Angola"
+     ],
+     "placed": 0.84,
+     "branches": 11,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.6332854581808087,
+       "ari": 0.5602621986359732
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.4989906608371355,
+       "ari": 0.224118734875338
+      },
+      "LDA (true k)": {
+       "nmi": 0.02174147178612611,
+       "ari": -0.0033965321767641396
+      },
+      "random clusters (true k)": {
+       "nmi": 0.03512296884688842,
+       "ari": 0.006642403993397371
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 5,
+      "nodes": 77
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 14,
+     "seed": 5014,
+     "sentences": 200,
+     "words": 4241,
+     "topics": [
+      "Alchemy",
+      "Apollo 11",
+      "Alberta",
+      "Ambiguity",
+      "Analysis of variance"
+     ],
+     "placed": 0.855,
+     "branches": 13,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5811086405813749,
+       "ari": 0.49125871919548125
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.3020603195836182,
+       "ari": 0.09151866899677984
+      },
+      "LDA (true k)": {
+       "nmi": 0.053737368521012886,
+       "ari": 0.01931783405529387
+      },
+      "random clusters (true k)": {
+       "nmi": 0.030505366049245166,
+       "ari": 0.0029252628686950817
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.6,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 5,
+      "nodes": 80
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.6666666666666666,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 0.8
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 15,
+     "seed": 5015,
+     "sentences": 200,
+     "words": 4555,
+     "topics": [
+      "Angola",
+      "Amateur astronomy",
+      "Anarchism",
+      "Albania",
+      "Academy Awards"
+     ],
+     "placed": 0.835,
+     "branches": 6,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5867770211234089,
+       "ari": 0.5356167366513324
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.39704176156923465,
+       "ari": 0.18794238084135925
+      },
+      "LDA (true k)": {
+       "nmi": 0.051396727183487555,
+       "ari": 0.021631009208974344
+      },
+      "random clusters (true k)": {
+       "nmi": 0.02177510079920602,
+       "ari": -0.0045723148949937675
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.6,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 5,
+      "nodes": 87
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 16,
+     "seed": 5016,
+     "sentences": 200,
+     "words": 4375,
+     "topics": [
+      "Anthropology",
+      "A Modest Proposal",
+      "Asia",
+      "Alberta",
+      "Achilles"
+     ],
+     "placed": 0.885,
+     "branches": 12,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.546762707369017,
+       "ari": 0.47194911282653557
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.4856334908246337,
+       "ari": 0.24853298191855835
+      },
+      "LDA (true k)": {
+       "nmi": 0.06871833568566019,
+       "ari": 0.03726857360618397
+      },
+      "random clusters (true k)": {
+       "nmi": 0.027907746709510548,
+       "ari": 0.0020423528735457816
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.5,
+      "generic_roots": 0.0,
+      "fragmentation": 0.8,
+      "roots": 4,
+      "nodes": 71
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 17,
+     "seed": 5017,
+     "sentences": 200,
+     "words": 4416,
+     "topics": [
+      "Atlantic Ocean",
+      "Asphalt",
+      "Altruism",
+      "Albania",
+      "Anarchism"
+     ],
+     "placed": 0.825,
+     "branches": 10,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.615299891690892,
+       "ari": 0.5471037221558466
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.45180754966243974,
+       "ari": 0.2905424260487048
+      },
+      "LDA (true k)": {
+       "nmi": 0.04034230378460841,
+       "ari": 0.01228219264224748
+      },
+      "random clusters (true k)": {
+       "nmi": 0.020869913686748478,
+       "ari": -0.00425670939235632
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 5,
+      "nodes": 99
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 18,
+     "seed": 5018,
+     "sentences": 200,
+     "words": 3944,
+     "topics": [
+      "Ayn Rand",
+      "Analysis of variance",
+      "Ambiguity",
+      "Achilles",
+      "Algeria"
+     ],
+     "placed": 0.865,
+     "branches": 14,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.4625312239048843,
+       "ari": 0.3691200710585584
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.3212109965287604,
+       "ari": 0.11872056514913658
+      },
+      "LDA (true k)": {
+       "nmi": 0.015394350209085583,
+       "ari": -0.007150766119225304
+      },
+      "random clusters (true k)": {
+       "nmi": 0.02724913465905782,
+       "ari": 0.0007270332817022782
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 0.8,
+      "purity": 0.6,
+      "generic_roots": 0.0,
+      "fragmentation": 1.25,
+      "roots": 5,
+      "nodes": 57
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.8
+      }
+     }
+    },
+    {
+     "k": 5,
+     "trial": 19,
+     "seed": 5019,
+     "sentences": 200,
+     "words": 4140,
+     "topics": [
+      "Analysis of variance",
+      "Albedo",
+      "Azerbaijan",
+      "Alberta",
+      "Abraham Lincoln"
+     ],
+     "placed": 0.85,
+     "branches": 7,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5504037442615258,
+       "ari": 0.45505892476882237
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.42129487836490676,
+       "ari": 0.221141724945893
+      },
+      "LDA (true k)": {
+       "nmi": 0.044013264432779614,
+       "ari": 0.018497618244468054
+      },
+      "random clusters (true k)": {
+       "nmi": 0.04456205120048517,
+       "ari": 0.017231386286741635
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.4,
+      "roots": 7,
+      "nodes": 106
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 0,
+     "seed": 8000,
+     "sentences": 320,
+     "words": 6965,
+     "topics": [
+      "Atlantic Ocean",
+      "Albedo",
+      "Alberta",
+      "Aardvark",
+      "Angola",
+      "Alchemy",
+      "Achilles",
+      "Andre Agassi"
+     ],
+     "placed": 0.846875,
+     "branches": 16,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.6313388078001848,
+       "ari": 0.5000154485184871
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.5516372712087055,
+       "ari": 0.2850125944584383
+      },
+      "LDA (true k)": {
+       "nmi": 0.058348368935231536,
+       "ari": 0.010966219357862269
+      },
+      "random clusters (true k)": {
+       "nmi": 0.03214650703765017,
+       "ari": -0.0029426993098919272
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.75,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 8,
+      "nodes": 113
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.75
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 1,
+     "seed": 8001,
+     "sentences": 320,
+     "words": 7100,
+     "topics": [
+      "Aardvark",
+      "Altruism",
+      "Azerbaijan",
+      "Ambiguity",
+      "Afghanistan",
+      "Asia",
+      "Assistive technology",
+      "Asphalt"
+     ],
+     "placed": 0.834375,
+     "branches": 22,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5281984382828149,
+       "ari": 0.3465565085579903
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.2972271420076464,
+       "ari": 0.08932960063017965
+      },
+      "LDA (true k)": {
+       "nmi": 0.052637157058434775,
+       "ari": 0.01140145459586164
+      },
+      "random clusters (true k)": {
+       "nmi": 0.03505185780079889,
+       "ari": -0.004065288129074179
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.875,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 8,
+      "nodes": 88
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.6666666666666666,
+       "coverage": 0.875
+      },
+      "frequency": {
+       "precision": 0.6666666666666666,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.625
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 2,
+     "seed": 8002,
+     "sentences": 320,
+     "words": 6227,
+     "topics": [
+      "Asphalt",
+      "Analysis of variance",
+      "Ambiguity",
+      "Apollo 11",
+      "Alberta",
+      "Aardwolf",
+      "Aristotle",
+      "Ayn Rand"
+     ],
+     "placed": 0.84375,
+     "branches": 21,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.4382617987828707,
+       "ari": 0.2895191295711596
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.38228549173186605,
+       "ari": 0.09749155600401986
+      },
+      "LDA (true k)": {
+       "nmi": 0.05551743719674786,
+       "ari": 0.011645396341028676
+      },
+      "random clusters (true k)": {
+       "nmi": 0.04403117472590128,
+       "ari": 0.0021839752456187882
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 0.75,
+      "purity": 0.4,
+      "generic_roots": 0.0,
+      "fragmentation": 0.8333333333333334,
+      "roots": 5,
+      "nodes": 80
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 0.625
+      },
+      "frequency": {
+       "precision": 0.6666666666666666,
+       "coverage": 0.75
+      },
+      "YAKE": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.75
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 3,
+     "seed": 8003,
+     "sentences": 320,
+     "words": 7113,
+     "topics": [
+      "Apollo 11",
+      "Afghanistan",
+      "Art",
+      "Analysis of variance",
+      "Algeria",
+      "Aristotle",
+      "Albania",
+      "Andre Agassi"
+     ],
+     "placed": 0.8375,
+     "branches": 18,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5743177768824109,
+       "ari": 0.44685106590565393
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.3191656370246293,
+       "ari": 0.08236866465362867
+      },
+      "LDA (true k)": {
+       "nmi": 0.09929968021708005,
+       "ari": 0.03636014026592271
+      },
+      "random clusters (true k)": {
+       "nmi": 0.036218262769718325,
+       "ari": -0.0015765085534064874
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.7142857142857143,
+      "generic_roots": 0.0,
+      "fragmentation": 0.875,
+      "roots": 7,
+      "nodes": 102
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 0.875
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.875
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 4,
+     "seed": 8004,
+     "sentences": 320,
+     "words": 7872,
+     "topics": [
+      "Amateur astronomy",
+      "A Modest Proposal",
+      "Angola",
+      "Academy Awards",
+      "Altruism",
+      "Asia",
+      "Afghanistan",
+      "Albert Einstein"
+     ],
+     "placed": 0.796875,
+     "branches": 17,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5547732421469873,
+       "ari": 0.38535469055007165
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.3256320430846551,
+       "ari": 0.09942333353402662
+      },
+      "LDA (true k)": {
+       "nmi": 0.08538428980400914,
+       "ari": 0.03019622857966338
+      },
+      "random clusters (true k)": {
+       "nmi": 0.04575885325045091,
+       "ari": 0.004603222255578905
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.7142857142857143,
+      "generic_roots": 0.0,
+      "fragmentation": 0.875,
+      "roots": 7,
+      "nodes": 119
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.875
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.875
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.875
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 5,
+     "seed": 8005,
+     "sentences": 320,
+     "words": 6316,
+     "topics": [
+      "Algeria",
+      "Andrei Tarkovsky",
+      "Angola",
+      "Andre Agassi",
+      "Albert Einstein",
+      "Atlantic Ocean",
+      "Azerbaijan",
+      "Analysis of variance"
+     ],
+     "placed": 0.825,
+     "branches": 12,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5459346552786164,
+       "ari": 0.41717936899203056
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.3661358339326526,
+       "ari": 0.11266578584475875
+      },
+      "LDA (true k)": {
+       "nmi": 0.08752941235737742,
+       "ari": 0.03327314796163725
+      },
+      "random clusters (true k)": {
+       "nmi": 0.0393058852518577,
+       "ari": -0.0034971803983038677
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.5714285714285714,
+      "generic_roots": 0.0,
+      "fragmentation": 0.875,
+      "roots": 7,
+      "nodes": 111
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.75
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.875
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 0.875
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 6,
+     "seed": 8006,
+     "sentences": 320,
+     "words": 6468,
+     "topics": [
+      "Abraham Lincoln",
+      "Apollo 11",
+      "Assistive technology",
+      "Amateur astronomy",
+      "Aardvark",
+      "Analysis of variance",
+      "Andre Agassi",
+      "Algeria"
+     ],
+     "placed": 0.821875,
+     "branches": 14,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.549755388017151,
+       "ari": 0.4039144355746445
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.4422521589588658,
+       "ari": 0.16726805069901088
+      },
+      "LDA (true k)": {
+       "nmi": 0.052042091307826145,
+       "ari": 0.007753668934111689
+      },
+      "random clusters (true k)": {
+       "nmi": 0.03118813118278511,
+       "ari": -0.0031358067191387486
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.5,
+      "generic_roots": 0.0,
+      "fragmentation": 0.75,
+      "roots": 6,
+      "nodes": 96
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.625
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 0.875
+      },
+      "YAKE": {
+       "precision": 0.6666666666666666,
+       "coverage": 0.625
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 7,
+     "seed": 8007,
+     "sentences": 320,
+     "words": 7548,
+     "topics": [
+      "Allah",
+      "Art",
+      "Achilles",
+      "Aristotle",
+      "Angola",
+      "Assistive technology",
+      "Ambiguity",
+      "Altruism"
+     ],
+     "placed": 0.815625,
+     "branches": 18,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5659723270432921,
+       "ari": 0.41997276707633435
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.36193296989621515,
+       "ari": 0.13269034940408983
+      },
+      "LDA (true k)": {
+       "nmi": 0.05082600397678628,
+       "ari": 0.006464846617178038
+      },
+      "random clusters (true k)": {
+       "nmi": 0.04979521904250067,
+       "ari": 0.004195544195623786
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.75,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 8,
+      "nodes": 115
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.6666666666666666,
+       "coverage": 0.875
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.875
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 8,
+     "seed": 8008,
+     "sentences": 320,
+     "words": 7189,
+     "topics": [
+      "Anthropology",
+      "A Modest Proposal",
+      "Aristotle",
+      "Azerbaijan",
+      "Asphalt",
+      "Assistive technology",
+      "Andrei Tarkovsky",
+      "Aardvark"
+     ],
+     "placed": 0.8,
+     "branches": 20,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5841963962403436,
+       "ari": 0.42544397289917735
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.47610590971585753,
+       "ari": 0.16057212138084725
+      },
+      "LDA (true k)": {
+       "nmi": 0.06549259855243261,
+       "ari": 0.015764798176961727
+      },
+      "random clusters (true k)": {
+       "nmi": 0.02924593487377589,
+       "ari": -0.005061731374472441
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 0.875,
+      "purity": 0.7142857142857143,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 7,
+      "nodes": 98
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.75
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.75
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.75
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 9,
+     "seed": 8009,
+     "sentences": 320,
+     "words": 6900,
+     "topics": [
+      "Asphalt",
+      "Anarchism",
+      "Afghanistan",
+      "Alberta",
+      "Albedo",
+      "Allah",
+      "Angola",
+      "Alchemy"
+     ],
+     "placed": 0.828125,
+     "branches": 22,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5460781560161787,
+       "ari": 0.39219554882603636
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.45748553059072417,
+       "ari": 0.19124739908466998
+      },
+      "LDA (true k)": {
+       "nmi": 0.049894976906066334,
+       "ari": 0.007812914663014979
+      },
+      "random clusters (true k)": {
+       "nmi": 0.04403312976779248,
+       "ari": 0.0009401486758582887
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 0.875,
+      "purity": 0.7142857142857143,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 7,
+      "nodes": 102
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.6666666666666666,
+       "coverage": 0.875
+      },
+      "frequency": {
+       "precision": 0.6666666666666666,
+       "coverage": 0.625
+      },
+      "YAKE": {
+       "precision": 0.6666666666666666,
+       "coverage": 0.625
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 10,
+     "seed": 8010,
+     "sentences": 320,
+     "words": 7235,
+     "topics": [
+      "Apollo 11",
+      "Abraham Lincoln",
+      "Aristotle",
+      "Alberta",
+      "Azerbaijan",
+      "Altruism",
+      "Algeria",
+      "Allah"
+     ],
+     "placed": 0.803125,
+     "branches": 12,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.6070599869790292,
+       "ari": 0.43506048295090605
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.4388812753073069,
+       "ari": 0.17058073510977545
+      },
+      "LDA (true k)": {
+       "nmi": 0.07136998181403736,
+       "ari": 0.02347531351618269
+      },
+      "random clusters (true k)": {
+       "nmi": 0.030746553656964472,
+       "ari": -0.00450935725741028
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.7142857142857143,
+      "generic_roots": 0.0,
+      "fragmentation": 0.875,
+      "roots": 7,
+      "nodes": 119
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.75
+      },
+      "frequency": {
+       "precision": 0.6666666666666666,
+       "coverage": 0.625
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.875
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 11,
+     "seed": 8011,
+     "sentences": 320,
+     "words": 6714,
+     "topics": [
+      "Albert Einstein",
+      "Aristotle",
+      "Albedo",
+      "Anthropology",
+      "Alchemy",
+      "Algeria",
+      "Azerbaijan",
+      "Abraham Lincoln"
+     ],
+     "placed": 0.815625,
+     "branches": 14,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.4428563326156485,
+       "ari": 0.2871057059260498
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.4427512214421961,
+       "ari": 0.14846857739041888
+      },
+      "LDA (true k)": {
+       "nmi": 0.06447252715997388,
+       "ari": 0.01518140456205727
+      },
+      "random clusters (true k)": {
+       "nmi": 0.048654663074684315,
+       "ari": 0.0047084944838266685
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.3333333333333333,
+      "generic_roots": 0.0,
+      "fragmentation": 0.75,
+      "roots": 6,
+      "nodes": 88
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 0.875
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.875
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 12,
+     "seed": 8012,
+     "sentences": 320,
+     "words": 7152,
+     "topics": [
+      "Alchemy",
+      "A Modest Proposal",
+      "Asia",
+      "Algeria",
+      "Ayn Rand",
+      "Academy Awards",
+      "Amateur astronomy",
+      "Allah"
+     ],
+     "placed": 0.8375,
+     "branches": 16,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5996413128707828,
+       "ari": 0.4635290693125615
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.430626705464424,
+       "ari": 0.13839869970870097
+      },
+      "LDA (true k)": {
+       "nmi": 0.05671222288432852,
+       "ari": 0.01226376096929667
+      },
+      "random clusters (true k)": {
+       "nmi": 0.041517181358778285,
+       "ari": 0.0022981471188853984
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.5,
+      "generic_roots": 0.0,
+      "fragmentation": 0.75,
+      "roots": 6,
+      "nodes": 103
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.875
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.875
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.875
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 13,
+     "seed": 8013,
+     "sentences": 320,
+     "words": 6824,
+     "topics": [
+      "Academy Awards",
+      "Aardwolf",
+      "Albert Einstein",
+      "Azerbaijan",
+      "Andre Agassi",
+      "Apollo 11",
+      "Angola",
+      "Anarchism"
+     ],
+     "placed": 0.8125,
+     "branches": 16,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.44736427169988996,
+       "ari": 0.29289675213419675
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.3624156063900774,
+       "ari": 0.13213664717058646
+      },
+      "LDA (true k)": {
+       "nmi": 0.06877098048988467,
+       "ari": 0.01646193906886716
+      },
+      "random clusters (true k)": {
+       "nmi": 0.056273610948964124,
+       "ari": 0.008086699600592157
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 0.875,
+      "purity": 0.5,
+      "generic_roots": 0.0,
+      "fragmentation": 0.8571428571428571,
+      "roots": 6,
+      "nodes": 92
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.75
+      },
+      "frequency": {
+       "precision": 0.6,
+       "coverage": 0.75
+      },
+      "YAKE": {
+       "precision": 0.6666666666666666,
+       "coverage": 0.75
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 14,
+     "seed": 8014,
+     "sentences": 320,
+     "words": 7622,
+     "topics": [
+      "Azerbaijan",
+      "Art",
+      "Apollo 11",
+      "Aristotle",
+      "Achilles",
+      "Afghanistan",
+      "Amateur astronomy",
+      "A Modest Proposal"
+     ],
+     "placed": 0.825,
+     "branches": 14,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.5563805263111025,
+       "ari": 0.4123908622656731
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.4870947846732186,
+       "ari": 0.16794765203148979
+      },
+      "LDA (true k)": {
+       "nmi": 0.09134998000459395,
+       "ari": 0.031016506627863476
+      },
+      "random clusters (true k)": {
+       "nmi": 0.03838128611225393,
+       "ari": -0.00023890946322082225
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.75,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 8,
+      "nodes": 119
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.6,
+       "coverage": 0.875
+      },
+      "frequency": {
+       "precision": 0.6666666666666666,
+       "coverage": 0.875
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 0.875
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 15,
+     "seed": 8015,
+     "sentences": 320,
+     "words": 7374,
+     "topics": [
+      "Academy Awards",
+      "Amateur astronomy",
+      "Azerbaijan",
+      "Asia",
+      "A Modest Proposal",
+      "Art",
+      "Albert Einstein",
+      "Achilles"
+     ],
+     "placed": 0.796875,
+     "branches": 8,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.6335689814123648,
+       "ari": 0.48309948733124053
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.41720624911379567,
+       "ari": 0.14206590011660145
+      },
+      "LDA (true k)": {
+       "nmi": 0.05915156063542507,
+       "ari": 0.014112977926587512
+      },
+      "random clusters (true k)": {
+       "nmi": 0.030404817636393085,
+       "ari": -0.005069477287570659
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.5714285714285714,
+      "generic_roots": 0.0,
+      "fragmentation": 0.875,
+      "roots": 7,
+      "nodes": 114
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.875
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 16,
+     "seed": 8016,
+     "sentences": 320,
+     "words": 7071,
+     "topics": [
+      "Algeria",
+      "Abraham Lincoln",
+      "A Modest Proposal",
+      "Albania",
+      "Altruism",
+      "Achilles",
+      "Andrei Tarkovsky",
+      "Art"
+     ],
+     "placed": 0.815625,
+     "branches": 12,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.6609161700416174,
+       "ari": 0.5204019330563839
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.4984691348698133,
+       "ari": 0.21200019820477858
+      },
+      "LDA (true k)": {
+       "nmi": 0.07130297667943442,
+       "ari": 0.018058287695059367
+      },
+      "random clusters (true k)": {
+       "nmi": 0.028654938497332912,
+       "ari": -0.004679948882466314
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.875,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 8,
+      "nodes": 116
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.875
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.875
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.875
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 17,
+     "seed": 8017,
+     "sentences": 320,
+     "words": 7002,
+     "topics": [
+      "Ambiguity",
+      "Atlantic Ocean",
+      "Amateur astronomy",
+      "Anarchism",
+      "Angola",
+      "Aardvark",
+      "Academy Awards",
+      "Andre Agassi"
+     ],
+     "placed": 0.821875,
+     "branches": 17,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.6097236324916343,
+       "ari": 0.4373470313646935
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.40164675543528927,
+       "ari": 0.13622674622730108
+      },
+      "LDA (true k)": {
+       "nmi": 0.07529645291480835,
+       "ari": 0.019246986569401187
+      },
+      "random clusters (true k)": {
+       "nmi": 0.04268242841161357,
+       "ari": 0.0023319573760528806
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.875,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 8,
+      "nodes": 117
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.75
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.625
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.75
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 18,
+     "seed": 8018,
+     "sentences": 320,
+     "words": 7172,
+     "topics": [
+      "Achilles",
+      "Analysis of variance",
+      "Altruism",
+      "Ambiguity",
+      "Albedo",
+      "Albania",
+      "Albert Einstein",
+      "Afghanistan"
+     ],
+     "placed": 0.825,
+     "branches": 18,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.6059097593219178,
+       "ari": 0.450305457327396
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.42177827123668393,
+       "ari": 0.17917993318728745
+      },
+      "LDA (true k)": {
+       "nmi": 0.06173638913770292,
+       "ari": 0.013095274922159714
+      },
+      "random clusters (true k)": {
+       "nmi": 0.04764220382379764,
+       "ari": 0.00376229911747632
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.5,
+      "generic_roots": 0.0,
+      "fragmentation": 0.75,
+      "roots": 6,
+      "nodes": 104
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 0.75
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.75
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 0.875
+      }
+     }
+    },
+    {
+     "k": 8,
+     "trial": 19,
+     "seed": 8019,
+     "sentences": 320,
+     "words": 6784,
+     "topics": [
+      "Alberta",
+      "Analysis of variance",
+      "Abraham Lincoln",
+      "Asia",
+      "Aristotle",
+      "Ayn Rand",
+      "Afghanistan",
+      "Andrei Tarkovsky"
+     ],
+     "placed": 0.81875,
+     "branches": 12,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.522819674877641,
+       "ari": 0.3944871150755182
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.3260737323308465,
+       "ari": 0.09307866716209852
+      },
+      "LDA (true k)": {
+       "nmi": 0.0691926730717371,
+       "ari": 0.01587623121648359
+      },
+      "random clusters (true k)": {
+       "nmi": 0.06347777159735511,
+       "ari": 0.01476444472762606
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.625,
+      "generic_roots": 0.0,
+      "fragmentation": 1.0,
+      "roots": 8,
+      "nodes": 109
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 0.875
+      },
+      "frequency": {
+       "precision": 0.6666666666666666,
+       "coverage": 0.75
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.875
+      }
+     }
+    }
+   ]
+  },
+  "topics_newsgroups": {
+   "source": "newsgroups",
+   "settings": [
+    2
+   ],
+   "trials": 20,
+   "runs": [
+    {
+     "k": 2,
+     "trial": 0,
+     "seed": 2000,
+     "sentences": 614,
+     "words": 13829,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7296416938110749,
+     "branches": 47,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.14596728231040004,
+       "ari": 0.054040249243298095
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.12289654877327288,
+       "ari": -0.05877520776010798
+      },
+      "LDA (true k)": {
+       "nmi": 0.032714584810268094,
+       "ari": 0.03807774922998644
+      },
+      "random clusters (true k)": {
+       "nmi": 0.0009095541665889519,
+       "ari": -0.0014501894734845376
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.875,
+      "generic_roots": 0.0,
+      "fragmentation": 4.0,
+      "roots": 8,
+      "nodes": 118
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.5
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 1,
+     "seed": 2001,
+     "sentences": 530,
+     "words": 12139,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7169811320754716,
+     "branches": 45,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.1098661796586043,
+       "ari": 0.03828045521526804
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.11677791565948216,
+       "ari": -0.0901870357725685
+      },
+      "LDA (true k)": {
+       "nmi": 0.003218209298650287,
+       "ari": 0.0051336397165608234
+      },
+      "random clusters (true k)": {
+       "nmi": 4.280009161758146e-05,
+       "ari": -0.001045886515791225
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8571428571428571,
+      "generic_roots": 0.0,
+      "fragmentation": 3.5,
+      "roots": 7,
+      "nodes": 96
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 0.5
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.5
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.5
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 2,
+     "seed": 2002,
+     "sentences": 352,
+     "words": 8464,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7926136363636364,
+     "branches": 43,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.1695177714851631,
+       "ari": 0.0816418910287693
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.07604051355905225,
+       "ari": -0.017043626897591136
+      },
+      "LDA (true k)": {
+       "nmi": 0.025667969166210905,
+       "ari": 0.042704046049723485
+      },
+      "random clusters (true k)": {
+       "nmi": 0.000805290919086757,
+       "ari": -0.002365597218961687
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 2.0,
+      "roots": 4,
+      "nodes": 62
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.5
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 3,
+     "seed": 2003,
+     "sentences": 296,
+     "words": 6915,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7871621621621622,
+     "branches": 47,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.14059137952338047,
+       "ari": 0.04511051006452366
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.06722308732706773,
+       "ari": -0.014469131803027066
+      },
+      "LDA (true k)": {
+       "nmi": 0.006466601645477441,
+       "ari": 0.000779523324912849
+      },
+      "random clusters (true k)": {
+       "nmi": 0.008955895220510062,
+       "ari": 0.006912331082790309
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 2.5,
+      "roots": 5,
+      "nodes": 62
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.6666666666666666,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.5333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.5
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 4,
+     "seed": 2004,
+     "sentences": 348,
+     "words": 7411,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7729885057471264,
+     "branches": 47,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.1525249875150103,
+       "ari": 0.061914938139983375
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.04642467320704488,
+       "ari": -0.030494043758378695
+      },
+      "LDA (true k)": {
+       "nmi": 1.487648471200505e-05,
+       "ari": -0.0026900475615814364
+      },
+      "random clusters (true k)": {
+       "nmi": 5.951322971353004e-05,
+       "ari": -0.00259622302262456
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 2.0,
+      "roots": 4,
+      "nodes": 54
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.6,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 5,
+     "seed": 2005,
+     "sentences": 467,
+     "words": 11274,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.721627408993576,
+     "branches": 51,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.1586707790858939,
+       "ari": 0.04751345204786542
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.1729721693980169,
+       "ari": -0.016796674918902136
+      },
+      "LDA (true k)": {
+       "nmi": 0.005035149615316981,
+       "ari": 0.001776894119694599
+      },
+      "random clusters (true k)": {
+       "nmi": 0.00012313513371340305,
+       "ari": -0.001256602139809983
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8571428571428571,
+      "generic_roots": 0.0,
+      "fragmentation": 3.5,
+      "roots": 7,
+      "nodes": 95
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.5
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.5
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 6,
+     "seed": 2006,
+     "sentences": 560,
+     "words": 13060,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7571428571428571,
+     "branches": 49,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.17172470013524294,
+       "ari": 0.08725620782536753
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.06404184195079,
+       "ari": 0.03882945598062482
+      },
+      "LDA (true k)": {
+       "nmi": 0.005204973772354467,
+       "ari": 0.006257217819932494
+      },
+      "random clusters (true k)": {
+       "nmi": 0.0027016310976642833,
+       "ari": 0.0003899720558885364
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8333333333333334,
+      "generic_roots": 0.0,
+      "fragmentation": 3.0,
+      "roots": 6,
+      "nodes": 92
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 0.5
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.5
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 7,
+     "seed": 2007,
+     "sentences": 594,
+     "words": 14895,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7609427609427609,
+     "branches": 58,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.15070970169466058,
+       "ari": 0.05642600057602842
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.1554576020009124,
+       "ari": -0.052994780670828065
+      },
+      "LDA (true k)": {
+       "nmi": 0.027198908341764354,
+       "ari": 0.03866974116900418
+      },
+      "random clusters (true k)": {
+       "nmi": 0.0013232964355391356,
+       "ari": 0.0012280662849329731
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8571428571428571,
+      "generic_roots": 0.0,
+      "fragmentation": 3.5,
+      "roots": 7,
+      "nodes": 107
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.5
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.5
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.5
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 8,
+     "seed": 2008,
+     "sentences": 324,
+     "words": 7187,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7932098765432098,
+     "branches": 40,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.1740496700872923,
+       "ari": 0.0713772692132858
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.06532853249310615,
+       "ari": 0.004007194290598027
+      },
+      "LDA (true k)": {
+       "nmi": 0.012144276656137223,
+       "ari": 0.013751014433736788
+      },
+      "random clusters (true k)": {
+       "nmi": 0.001810031334293666,
+       "ari": -0.0006516861634411016
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8,
+      "generic_roots": 0.0,
+      "fragmentation": 2.5,
+      "roots": 5,
+      "nodes": 70
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.5
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 9,
+     "seed": 2009,
+     "sentences": 314,
+     "words": 7423,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7898089171974523,
+     "branches": 52,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.1708342835057494,
+       "ari": 0.04914133735131759
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.025192947721510588,
+       "ari": 0.005639146120432878
+      },
+      "LDA (true k)": {
+       "nmi": 0.0010972238791100222,
+       "ari": -0.0017346176848829823
+      },
+      "random clusters (true k)": {
+       "nmi": 0.0029120044956587386,
+       "ari": 0.000869581959627342
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8,
+      "generic_roots": 0.0,
+      "fragmentation": 2.5,
+      "roots": 5,
+      "nodes": 60
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.6666666666666666,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.5
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 10,
+     "seed": 2010,
+     "sentences": 289,
+     "words": 5577,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.754325259515571,
+     "branches": 42,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.10746095964654254,
+       "ari": 0.01127169457589586
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.12027662905628372,
+       "ari": -0.033893689188185486
+      },
+      "LDA (true k)": {
+       "nmi": 0.008307533786596434,
+       "ari": 0.00823255631061367
+      },
+      "random clusters (true k)": {
+       "nmi": 8.286115017901794e-06,
+       "ari": -0.0033640907343329488
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 0.5,
+      "purity": 0.75,
+      "generic_roots": 0.0,
+      "fragmentation": 4.0,
+      "roots": 4,
+      "nodes": 41
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.6666666666666666,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.6,
+       "coverage": 0.5
+      },
+      "YAKE": {
+       "precision": 0.8,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 11,
+     "seed": 2011,
+     "sentences": 285,
+     "words": 5658,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.775438596491228,
+     "branches": 38,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.13412527656659184,
+       "ari": 0.038432856594245474
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.10145580182029165,
+       "ari": 0.019648533683498177
+      },
+      "LDA (true k)": {
+       "nmi": 0.005038354960593254,
+       "ari": 0.0030463897460777734
+      },
+      "random clusters (true k)": {
+       "nmi": 0.0004465612281750685,
+       "ari": -0.002926088836026777
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.75,
+      "generic_roots": 0.0,
+      "fragmentation": 2.0,
+      "roots": 4,
+      "nodes": 56
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 12,
+     "seed": 2012,
+     "sentences": 285,
+     "words": 6758,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7614035087719299,
+     "branches": 44,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.16164407345765758,
+       "ari": 0.04971154584096295
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.14056504014263432,
+       "ari": 0.0699452458984136
+      },
+      "LDA (true k)": {
+       "nmi": 0.004671764170963207,
+       "ari": 0.004199793678852172
+      },
+      "random clusters (true k)": {
+       "nmi": 0.0017908999311752687,
+       "ari": -0.000690966325591253
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.75,
+      "generic_roots": 0.0,
+      "fragmentation": 2.0,
+      "roots": 4,
+      "nodes": 59
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.6,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.5
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 13,
+     "seed": 2013,
+     "sentences": 355,
+     "words": 7784,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7746478873239436,
+     "branches": 46,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.13458204412141136,
+       "ari": 0.05821534873966578
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.07560722389033585,
+       "ari": -0.01544034593545561
+      },
+      "LDA (true k)": {
+       "nmi": 0.002159734998776443,
+       "ari": 0.000710765237362194
+      },
+      "random clusters (true k)": {
+       "nmi": 1.2059195743676369e-05,
+       "ari": -0.00276755871006747
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8333333333333334,
+      "generic_roots": 0.0,
+      "fragmentation": 3.0,
+      "roots": 6,
+      "nodes": 74
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.7333333333333333,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 14,
+     "seed": 2014,
+     "sentences": 525,
+     "words": 11894,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.72,
+     "branches": 40,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.10880860097575792,
+       "ari": 0.030675817913121857
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.09937805178823485,
+       "ari": -0.09332012710814588
+      },
+      "LDA (true k)": {
+       "nmi": 0.015358106173749988,
+       "ari": 0.00929003584971873
+      },
+      "random clusters (true k)": {
+       "nmi": 0.0024124334352282647,
+       "ari": -0.002462817530885293
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.875,
+      "generic_roots": 0.0,
+      "fragmentation": 4.0,
+      "roots": 8,
+      "nodes": 111
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.5
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.5
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.5
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 15,
+     "seed": 2015,
+     "sentences": 490,
+     "words": 12629,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.726530612244898,
+     "branches": 46,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.1639212588995659,
+       "ari": 0.07783959991257829
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.17849138732109468,
+       "ari": -0.02256945972646075
+      },
+      "LDA (true k)": {
+       "nmi": 0.012544148778520113,
+       "ari": 0.014178804683332437
+      },
+      "random clusters (true k)": {
+       "nmi": 0.00121553210635177,
+       "ari": -0.00018382180147454328
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8571428571428571,
+      "generic_roots": 0.0,
+      "fragmentation": 3.5,
+      "roots": 7,
+      "nodes": 101
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.9333333333333333,
+       "coverage": 0.5
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.5
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 16,
+     "seed": 2016,
+     "sentences": 326,
+     "words": 6984,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7760736196319018,
+     "branches": 47,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.14734340918761585,
+       "ari": 0.04379787869278179
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.035682267686201474,
+       "ari": -0.009076787628008318
+      },
+      "LDA (true k)": {
+       "nmi": 0.01045976404834666,
+       "ari": 0.014992694541380438
+      },
+      "random clusters (true k)": {
+       "nmi": 0.006591291843286141,
+       "ari": 0.005454596868487691
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.5,
+      "generic_roots": 0.0,
+      "fragmentation": 3.0,
+      "roots": 6,
+      "nodes": 67
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 17,
+     "seed": 2017,
+     "sentences": 278,
+     "words": 5758,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7589928057553957,
+     "branches": 41,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.15277152997295063,
+       "ari": 0.05246226213028292
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.00307820097765244,
+       "ari": 0.002332097164160819
+      },
+      "LDA (true k)": {
+       "nmi": 0.003349221843811022,
+       "ari": 0.0006331645135659232
+      },
+      "random clusters (true k)": {
+       "nmi": 0.0007691194299158491,
+       "ari": -0.0027472317888432274
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 1.5,
+      "roots": 3,
+      "nodes": 38
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.6,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.6666666666666666,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 0.6666666666666666,
+       "coverage": 1.0
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 18,
+     "seed": 2018,
+     "sentences": 484,
+     "words": 10983,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.731404958677686,
+     "branches": 49,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.16645019972200314,
+       "ari": 0.07032402755409176
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.1482540270277187,
+       "ari": -0.05880811221775174
+      },
+      "LDA (true k)": {
+       "nmi": 0.033937865632637704,
+       "ari": 0.037621754212559734
+      },
+      "random clusters (true k)": {
+       "nmi": 0.008283971436399374,
+       "ari": 0.014446978486365817
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 0.8,
+      "generic_roots": 0.0,
+      "fragmentation": 2.5,
+      "roots": 5,
+      "nodes": 92
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 1.0,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 0.8666666666666667,
+       "coverage": 0.5
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.5
+      }
+     }
+    },
+    {
+     "k": 2,
+     "trial": 19,
+     "seed": 2019,
+     "sentences": 557,
+     "words": 13117,
+     "topics": [
+      "alt.atheism",
+      "sci.space"
+     ],
+     "placed": 0.7324955116696589,
+     "branches": 53,
+     "clustering": {
+      "audio-brief": {
+       "nmi": 0.16972240628393925,
+       "ari": 0.07069763422703591
+      },
+      "TF-IDF + k-means (true k)": {
+       "nmi": 0.1375451087519525,
+       "ari": 0.11850728344576014
+      },
+      "LDA (true k)": {
+       "nmi": 0.01748260947583563,
+       "ari": 0.008785057876807402
+      },
+      "random clusters (true k)": {
+       "nmi": 5.7731277030022184e-06,
+       "ari": -0.0015098441000772796
+      },
+      "one cluster": {
+       "nmi": 0.0,
+       "ari": 0.0
+      }
+     },
+     "tree": {
+      "coverage": 1.0,
+      "purity": 1.0,
+      "generic_roots": 0.0,
+      "fragmentation": 3.5,
+      "roots": 7,
+      "nodes": 93
+     },
+     "keywords": {
+      "audio-brief": {
+       "precision": 0.8666666666666667,
+       "coverage": 1.0
+      },
+      "frequency": {
+       "precision": 1.0,
+       "coverage": 1.0
+      },
+      "YAKE": {
+       "precision": 1.0,
+       "coverage": 0.5
+      }
+     }
+    }
+   ]
+  },
+  "title_keywords": {
+   "articles": 38,
+   "runs": [
+    {
+     "title": "Anarchism",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.3333333333333333
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.2
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.1111111111111111
+      }
+     }
+    },
+    {
+     "title": "Albedo",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Achilles",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Abraham Lincoln",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 0.5,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Aristotle",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Academy Awards",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "International Atomic Time",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 0.6666666666666666,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "frequency": {
+       "title_recall": 0.6666666666666666,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 0.6666666666666666,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 0.6666666666666666,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Altruism",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Algeria",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.1111111111111111
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.2
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.16666666666666666
+      },
+      "TextRank": {
+       "title_recall": 0.0,
+       "hit": 0.0,
+       "mrr": 0.0
+      }
+     }
+    },
+    {
+     "title": "Anthropology",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Alchemy",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      }
+     }
+    },
+    {
+     "title": "Astronomer",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.3333333333333333
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Andre Agassi",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 0.5,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 0.5,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 0.5,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Austroasiatic languages",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Analysis of variance",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.3333333333333333
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "TextRank": {
+       "title_recall": 0.0,
+       "hit": 0.0,
+       "mrr": 0.0
+      }
+     }
+    },
+    {
+     "title": "Assistive technology",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 0.5,
+       "hit": 1.0,
+       "mrr": 0.2
+      }
+     }
+    },
+    {
+     "title": "Asphalt",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.3333333333333333
+      }
+     }
+    },
+    {
+     "title": "American National Standards Institute",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 0.5,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Apollo 11",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      }
+     }
+    },
+    {
+     "title": "A Modest Proposal",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 0.5,
+       "hit": 1.0,
+       "mrr": 0.5
+      }
+     }
+    },
+    {
+     "title": "Andrei Tarkovsky",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "YAKE": {
+       "title_recall": 0.5,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Ambiguity",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Aardvark",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Aardwolf",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Asia",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Atlantic Ocean",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Angola",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Angolan Armed Forces",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 0.6666666666666666,
+       "hit": 1.0,
+       "mrr": 0.2
+      },
+      "frequency": {
+       "title_recall": 0.6666666666666666,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 0.3333333333333333,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Alberta",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Albert Einstein",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 0.5,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 0.5,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Afghanistan",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 0.0,
+       "hit": 0.0,
+       "mrr": 0.0
+      }
+     }
+    },
+    {
+     "title": "Albania",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.3333333333333333
+      }
+     }
+    },
+    {
+     "title": "Allah",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Azerbaijan",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Amateur astronomy",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 0.5,
+       "hit": 1.0,
+       "mrr": 0.3333333333333333
+      }
+     }
+    },
+    {
+     "title": "Art",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      }
+     }
+    },
+    {
+     "title": "Agnostida",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 1.0
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.2
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.3333333333333333
+      },
+      "TextRank": {
+       "title_recall": 0.0,
+       "hit": 0.0,
+       "mrr": 0.0
+      }
+     }
+    },
+    {
+     "title": "Ampere",
+     "scores": {
+      "audio-brief": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.3333333333333333
+      },
+      "frequency": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "YAKE": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.5
+      },
+      "TextRank": {
+       "title_recall": 1.0,
+       "hit": 1.0,
+       "mrr": 0.2
+      }
+     }
+    }
+   ]
+  },
+  "summaries": {
+   "articles": 41,
+   "runs": [
+    {
+     "title": "Anarchism",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.25671641791044775,
+       "rouge2": 0.012012012012012012,
+       "rougeL": 0.11343283582089553
+      },
+      "Lead-k": {
+       "rouge1": 0.2416918429003021,
+       "rouge2": 0.0182370820668693,
+       "rougeL": 0.13293051359516617
+      },
+      "random sentences": {
+       "rouge1": 0.2314540059347181,
+       "rouge2": 0.011940298507462687,
+       "rougeL": 0.10682492581602375
+      },
+      "TextRank": {
+       "rouge1": 0.24852071005917162,
+       "rouge2": 0.017857142857142856,
+       "rougeL": 0.11834319526627218
+      },
+      "LexRank": {
+       "rouge1": 0.2746268656716418,
+       "rouge2": 0.018018018018018018,
+       "rougeL": 0.11940298507462686
+      }
+     }
+    },
+    {
+     "title": "Albedo",
+     "budget_words": 150,
+     "body_words": 2243,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.3052391799544419,
+       "rouge2": 0.03661327231121282,
+       "rougeL": 0.17312072892938496
+      },
+      "Lead-k": {
+       "rouge1": 0.3537414965986395,
+       "rouge2": 0.0592255125284738,
+       "rougeL": 0.17233560090702948
+      },
+      "random sentences": {
+       "rouge1": 0.27917620137299776,
+       "rouge2": 0.041379310344827586,
+       "rougeL": 0.1464530892448513
+      },
+      "TextRank": {
+       "rouge1": 0.30117647058823527,
+       "rouge2": 0.037825059101654845,
+       "rougeL": 0.16
+      },
+      "LexRank": {
+       "rouge1": 0.29545454545454547,
+       "rouge2": 0.0410958904109589,
+       "rougeL": 0.15
+      }
+     }
+    },
+    {
+     "title": "Achilles",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.3946488294314381,
+       "rouge2": 0.08754208754208755,
+       "rougeL": 0.2006688963210702
+      },
+      "Lead-k": {
+       "rouge1": 0.4013377926421404,
+       "rouge2": 0.07407407407407407,
+       "rougeL": 0.2140468227424749
+      },
+      "random sentences": {
+       "rouge1": 0.41471571906354515,
+       "rouge2": 0.12121212121212122,
+       "rougeL": 0.1939799331103679
+      },
+      "TextRank": {
+       "rouge1": 0.4119601328903654,
+       "rouge2": 0.07357859531772576,
+       "rougeL": 0.1926910299003322
+      },
+      "LexRank": {
+       "rouge1": 0.41522491349480967,
+       "rouge2": 0.14634146341463414,
+       "rougeL": 0.2352941176470588
+      }
+     }
+    },
+    {
+     "title": "Abraham Lincoln",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.15935334872979215,
+       "rouge2": 0.03009259259259259,
+       "rougeL": 0.10392609699769054
+      },
+      "Lead-k": {
+       "rouge1": 0.20069204152249134,
+       "rouge2": 0.03236994219653179,
+       "rougeL": 0.12226066897347174
+      },
+      "random sentences": {
+       "rouge1": 0.1746216530849825,
+       "rouge2": 0.025670945157526253,
+       "rougeL": 0.10244470314318976
+      },
+      "TextRank": {
+       "rouge1": 0.19483568075117372,
+       "rouge2": 0.049411764705882356,
+       "rougeL": 0.10563380281690142
+      },
+      "LexRank": {
+       "rouge1": 0.19767441860465118,
+       "rouge2": 0.037296037296037296,
+       "rougeL": 0.11162790697674418
+      }
+     }
+    },
+    {
+     "title": "Aristotle",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.2852112676056338,
+       "rouge2": 0.060070671378091876,
+       "rougeL": 0.15140845070422537
+      },
+      "Lead-k": {
+       "rouge1": 0.27622377622377625,
+       "rouge2": 0.06666666666666667,
+       "rougeL": 0.13986013986013984
+      },
+      "random sentences": {
+       "rouge1": 0.25,
+       "rouge2": 0.038869257950530034,
+       "rougeL": 0.13380281690140844
+      },
+      "TextRank": {
+       "rouge1": 0.2791519434628975,
+       "rouge2": 0.06382978723404255,
+       "rougeL": 0.13780918727915192
+      },
+      "LexRank": {
+       "rouge1": 0.30388692579505305,
+       "rouge2": 0.056737588652482275,
+       "rougeL": 0.13427561837455831
+      }
+     }
+    },
+    {
+     "title": "Academy Awards",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.4767441860465116,
+       "rouge2": 0.12280701754385964,
+       "rougeL": 0.23255813953488372
+      },
+      "Lead-k": {
+       "rouge1": 0.396551724137931,
+       "rouge2": 0.08670520231213874,
+       "rougeL": 0.18965517241379312
+      },
+      "random sentences": {
+       "rouge1": 0.3420289855072463,
+       "rouge2": 0.05247813411078717,
+       "rougeL": 0.17391304347826086
+      },
+      "TextRank": {
+       "rouge1": 0.42898550724637674,
+       "rouge2": 0.09912536443148687,
+       "rougeL": 0.21449275362318837
+      },
+      "LexRank": {
+       "rouge1": 0.42898550724637674,
+       "rouge2": 0.08163265306122448,
+       "rougeL": 0.19130434782608696
+      }
+     }
+    },
+    {
+     "title": "International Atomic Time",
+     "budget_words": 150,
+     "body_words": 958,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.4174454828660436,
+       "rouge2": 0.08150470219435736,
+       "rougeL": 0.205607476635514
+      },
+      "Lead-k": {
+       "rouge1": 0.39252336448598124,
+       "rouge2": 0.07523510971786833,
+       "rougeL": 0.19937694704049844
+      },
+      "random sentences": {
+       "rouge1": 0.34890965732087226,
+       "rouge2": 0.07523510971786833,
+       "rougeL": 0.19314641744548286
+      },
+      "TextRank": {
+       "rouge1": 0.4050632911392405,
+       "rouge2": 0.08280254777070063,
+       "rougeL": 0.2088607594936709
+      },
+      "LexRank": {
+       "rouge1": 0.35692307692307695,
+       "rouge2": 0.05572755417956657,
+       "rougeL": 0.16
+      }
+     }
+    },
+    {
+     "title": "Altruism",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.35095137420718814,
+       "rouge2": 0.055201698513800426,
+       "rougeL": 0.16913319238900634
+      },
+      "Lead-k": {
+       "rouge1": 0.326271186440678,
+       "rouge2": 0.05957446808510638,
+       "rougeL": 0.16949152542372883
+      },
+      "random sentences": {
+       "rouge1": 0.2706131078224101,
+       "rouge2": 0.008492569002123142,
+       "rougeL": 0.13530655391120505
+      },
+      "TextRank": {
+       "rouge1": 0.2993492407809111,
+       "rouge2": 0.04793028322440087,
+       "rougeL": 0.15184381778741865
+      },
+      "LexRank": {
+       "rouge1": 0.24947145877378438,
+       "rouge2": 0.025477707006369428,
+       "rougeL": 0.12684989429175475
+      }
+     }
+    },
+    {
+     "title": "Ayn Rand",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.30434782608695654,
+       "rouge2": 0.038834951456310676,
+       "rougeL": 0.16425120772946858
+      },
+      "Lead-k": {
+       "rouge1": 0.28433734939759037,
+       "rouge2": 0.04842615012106537,
+       "rougeL": 0.163855421686747
+      },
+      "random sentences": {
+       "rouge1": 0.33653846153846156,
+       "rouge2": 0.05314009661835749,
+       "rougeL": 0.15865384615384615
+      },
+      "TextRank": {
+       "rouge1": 0.3341404358353511,
+       "rouge2": 0.038929440389294405,
+       "rougeL": 0.15012106537530268
+      },
+      "LexRank": {
+       "rouge1": 0.35662650602409646,
+       "rouge2": 0.038740920096852295,
+       "rougeL": 0.1493975903614458
+      }
+     }
+    },
+    {
+     "title": "Algeria",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.2764227642276423,
+       "rouge2": 0.05306122448979592,
+       "rougeL": 0.14634146341463414
+      },
+      "Lead-k": {
+       "rouge1": 0.2585858585858586,
+       "rouge2": 0.056795131845841784,
+       "rougeL": 0.14949494949494951
+      },
+      "random sentences": {
+       "rouge1": 0.23030303030303031,
+       "rouge2": 0.02434077079107505,
+       "rougeL": 0.14545454545454545
+      },
+      "TextRank": {
+       "rouge1": 0.31771894093686354,
+       "rouge2": 0.06543967280163598,
+       "rougeL": 0.15885947046843177
+      },
+      "LexRank": {
+       "rouge1": 0.26993865030674846,
+       "rouge2": 0.03696098562628337,
+       "rougeL": 0.14314928425357873
+      }
+     }
+    },
+    {
+     "title": "Anthropology",
+     "budget_words": 101,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.4230769230769231,
+       "rouge2": 0.1553398058252427,
+       "rougeL": 0.23076923076923075
+      },
+      "Lead-k": {
+       "rouge1": 0.3564356435643565,
+       "rouge2": 0.06999999999999999,
+       "rougeL": 0.20792079207920788
+      },
+      "random sentences": {
+       "rouge1": 0.30392156862745096,
+       "rouge2": 0.0594059405940594,
+       "rougeL": 0.1568627450980392
+      },
+      "TextRank": {
+       "rouge1": 0.4292682926829268,
+       "rouge2": 0.1477832512315271,
+       "rougeL": 0.23414634146341465
+      },
+      "LexRank": {
+       "rouge1": 0.43349753694581283,
+       "rouge2": 0.07960199004975124,
+       "rougeL": 0.23645320197044334
+      }
+     }
+    },
+    {
+     "title": "Alchemy",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.2692307692307693,
+       "rouge2": 0.027027027027027025,
+       "rougeL": 0.13076923076923078
+      },
+      "Lead-k": {
+       "rouge1": 0.22692307692307692,
+       "rouge2": 0.015444015444015444,
+       "rougeL": 0.10384615384615385
+      },
+      "random sentences": {
+       "rouge1": 0.25523809523809526,
+       "rouge2": 0.049713193116634795,
+       "rougeL": 0.14857142857142858
+      },
+      "TextRank": {
+       "rouge1": 0.3067961165048544,
+       "rouge2": 0.046783625730994156,
+       "rougeL": 0.12815533980582525
+      },
+      "LexRank": {
+       "rouge1": 0.3038461538461538,
+       "rouge2": 0.0386100386100386,
+       "rougeL": 0.13461538461538464
+      }
+     }
+    },
+    {
+     "title": "Astronomer",
+     "budget_words": 95,
+     "body_words": 527,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.27225130890052357,
+       "rouge2": 0.010582010582010581,
+       "rougeL": 0.15706806282722513
+      },
+      "Lead-k": {
+       "rouge1": 0.3280423280423281,
+       "rouge2": 0.021390374331550804,
+       "rougeL": 0.1375661375661376
+      },
+      "random sentences": {
+       "rouge1": 0.24210526315789474,
+       "rouge2": 0.02127659574468085,
+       "rougeL": 0.14736842105263157
+      },
+      "TextRank": {
+       "rouge1": 0.2810810810810811,
+       "rouge2": 0.021857923497267763,
+       "rougeL": 0.11891891891891891
+      },
+      "LexRank": {
+       "rouge1": 0.3684210526315789,
+       "rouge2": 0.02127659574468085,
+       "rougeL": 0.17894736842105263
+      }
+     }
+    },
+    {
+     "title": "Andre Agassi",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.28443113772455086,
+       "rouge2": 0.06606606606606606,
+       "rougeL": 0.1377245508982036
+      },
+      "Lead-k": {
+       "rouge1": 0.11428571428571428,
+       "rouge2": 0.02023608768971332,
+       "rougeL": 0.06722689075630252
+      },
+      "random sentences": {
+       "rouge1": 0.24665676077265972,
+       "rouge2": 0.05067064083457526,
+       "rougeL": 0.11292719167904902
+      },
+      "TextRank": {
+       "rouge1": 0.2801788375558867,
+       "rouge2": 0.07174887892376682,
+       "rougeL": 0.15499254843517135
+      },
+      "LexRank": {
+       "rouge1": 0.26018808777429464,
+       "rouge2": 0.05660377358490566,
+       "rougeL": 0.13479623824451412
+      }
+     }
+    },
+    {
+     "title": "Austroasiatic languages",
+     "budget_words": 150,
+     "body_words": 914,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.36206896551724144,
+       "rouge2": 0.06358381502890173,
+       "rougeL": 0.16666666666666669
+      },
+      "Lead-k": {
+       "rouge1": 0.3579545454545454,
+       "rouge2": 0.07428571428571429,
+       "rougeL": 0.15909090909090912
+      },
+      "random sentences": {
+       "rouge1": 0.31123919308357345,
+       "rouge2": 0.04057971014492753,
+       "rougeL": 0.14985590778097982
+      },
+      "TextRank": {
+       "rouge1": 0.36904761904761907,
+       "rouge2": 0.04790419161676647,
+       "rougeL": 0.17857142857142858
+      },
+      "LexRank": {
+       "rouge1": 0.3438395415472779,
+       "rouge2": 0.040345821325648415,
+       "rougeL": 0.16045845272206305
+      }
+     }
+    },
+    {
+     "title": "American Football Conference",
+     "budget_words": 135,
+     "body_words": 698,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.3211678832116788,
+       "rouge2": 0.022058823529411763,
+       "rougeL": 0.1751824817518248
+      },
+      "Lead-k": {
+       "rouge1": 0.3430656934306569,
+       "rouge2": 0.036764705882352935,
+       "rougeL": 0.18248175182481752
+      },
+      "random sentences": {
+       "rouge1": 0.416058394160584,
+       "rouge2": 0.11764705882352941,
+       "rougeL": 0.24087591240875914
+      },
+      "TextRank": {
+       "rouge1": 0.3208955223880597,
+       "rouge2": 0.015037593984962407,
+       "rougeL": 0.17910447761194032
+      },
+      "LexRank": {
+       "rouge1": 0.4249084249084249,
+       "rouge2": 0.09594095940959409,
+       "rougeL": 0.21978021978021978
+      }
+     }
+    },
+    {
+     "title": "Analysis of variance",
+     "budget_words": 133,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.27106227106227104,
+       "rouge2": 0.051660516605166046,
+       "rougeL": 0.1758241758241758
+      },
+      "Lead-k": {
+       "rouge1": 0.32592592592592595,
+       "rouge2": 0.022388059701492536,
+       "rougeL": 0.16296296296296298
+      },
+      "random sentences": {
+       "rouge1": 0.4264705882352941,
+       "rouge2": 0.08148148148148149,
+       "rougeL": 0.18382352941176475
+      },
+      "TextRank": {
+       "rouge1": 0.30370370370370375,
+       "rouge2": 0.02985074626865672,
+       "rougeL": 0.17037037037037037
+      },
+      "LexRank": {
+       "rouge1": 0.2973977695167286,
+       "rouge2": 0.0299625468164794,
+       "rougeL": 0.16356877323420077
+      }
+     }
+    },
+    {
+     "title": "Assistive technology",
+     "budget_words": 69,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.37681159420289856,
+       "rouge2": 0.07352941176470588,
+       "rougeL": 0.18840579710144928
+      },
+      "Lead-k": {
+       "rouge1": 0.37681159420289856,
+       "rouge2": 0.07352941176470588,
+       "rougeL": 0.18840579710144928
+      },
+      "random sentences": {
+       "rouge1": 0.2608695652173913,
+       "rouge2": 0.0,
+       "rougeL": 0.14492753623188406
+      },
+      "TextRank": {
+       "rouge1": 0.4,
+       "rouge2": 0.09375000000000001,
+       "rougeL": 0.2
+      },
+      "LexRank": {
+       "rouge1": 0.34782608695652173,
+       "rouge2": 0.07352941176470588,
+       "rougeL": 0.18840579710144928
+      }
+     }
+    },
+    {
+     "title": "Asphalt",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.43795620437956206,
+       "rouge2": 0.09290953545232274,
+       "rougeL": 0.1995133819951338
+      },
+      "Lead-k": {
+       "rouge1": 0.3415841584158416,
+       "rouge2": 0.06965174129353234,
+       "rougeL": 0.1683168316831683
+      },
+      "random sentences": {
+       "rouge1": 0.32432432432432434,
+       "rouge2": 0.0345679012345679,
+       "rougeL": 0.1769041769041769
+      },
+      "TextRank": {
+       "rouge1": 0.39593908629441626,
+       "rouge2": 0.10714285714285715,
+       "rougeL": 0.182741116751269
+      },
+      "LexRank": {
+       "rouge1": 0.38118811881188125,
+       "rouge2": 0.07462686567164178,
+       "rougeL": 0.15841584158415842
+      }
+     }
+    },
+    {
+     "title": "American National Standards Institute",
+     "budget_words": 150,
+     "body_words": 540,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.44516129032258067,
+       "rouge2": 0.1103896103896104,
+       "rougeL": 0.21290322580645163
+      },
+      "Lead-k": {
+       "rouge1": 0.3042071197411003,
+       "rouge2": 0.05863192182410423,
+       "rougeL": 0.15533980582524273
+      },
+      "random sentences": {
+       "rouge1": 0.3883495145631068,
+       "rouge2": 0.05863192182410423,
+       "rougeL": 0.17475728155339806
+      },
+      "TextRank": {
+       "rouge1": 0.41447368421052627,
+       "rouge2": 0.09933774834437085,
+       "rougeL": 0.19736842105263158
+      },
+      "LexRank": {
+       "rouge1": 0.4281150159744409,
+       "rouge2": 0.09646302250803859,
+       "rougeL": 0.20447284345047922
+      }
+     }
+    },
+    {
+     "title": "Apollo 11",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.2628571428571429,
+       "rouge2": 0.03441682600382409,
+       "rougeL": 0.12571428571428572
+      },
+      "Lead-k": {
+       "rouge1": 0.25190839694656486,
+       "rouge2": 0.030651340996168584,
+       "rougeL": 0.11832061068702289
+      },
+      "random sentences": {
+       "rouge1": 0.31499051233396586,
+       "rouge2": 0.09142857142857143,
+       "rougeL": 0.15559772296015179
+      },
+      "TextRank": {
+       "rouge1": 0.28682170542635665,
+       "rouge2": 0.07003891050583656,
+       "rougeL": 0.14341085271317833
+      },
+      "LexRank": {
+       "rouge1": 0.2829827915869981,
+       "rouge2": 0.05758157389635316,
+       "rougeL": 0.12237093690248566
+      }
+     }
+    },
+    {
+     "title": "A Modest Proposal",
+     "budget_words": 108,
+     "body_words": 1630,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.4018264840182648,
+       "rouge2": 0.04608294930875576,
+       "rougeL": 0.16438356164383564
+      },
+      "Lead-k": {
+       "rouge1": 0.2764976958525346,
+       "rouge2": 0.018604651162790694,
+       "rougeL": 0.14746543778801843
+      },
+      "random sentences": {
+       "rouge1": 0.30917874396135264,
+       "rouge2": 0.03902439024390244,
+       "rougeL": 0.14492753623188404
+      },
+      "TextRank": {
+       "rouge1": 0.3211009174311926,
+       "rouge2": 0.027777777777777776,
+       "rougeL": 0.1559633027522936
+      },
+      "LexRank": {
+       "rouge1": 0.3211009174311926,
+       "rouge2": 0.027777777777777776,
+       "rougeL": 0.1559633027522936
+      }
+     }
+    },
+    {
+     "title": "Andrei Tarkovsky",
+     "budget_words": 147,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.3087248322147651,
+       "rouge2": 0.02027027027027027,
+       "rougeL": 0.1610738255033557
+      },
+      "Lead-k": {
+       "rouge1": 0.326530612244898,
+       "rouge2": 0.0273972602739726,
+       "rougeL": 0.163265306122449
+      },
+      "random sentences": {
+       "rouge1": 0.35797665369649806,
+       "rouge2": 0.054901960784313725,
+       "rougeL": 0.16342412451361868
+      },
+      "TextRank": {
+       "rouge1": 0.35460992907801414,
+       "rouge2": 0.05714285714285714,
+       "rougeL": 0.17021276595744683
+      },
+      "LexRank": {
+       "rouge1": 0.3986486486486487,
+       "rouge2": 0.09523809523809523,
+       "rougeL": 0.1554054054054054
+      }
+     }
+    },
+    {
+     "title": "Ambiguity",
+     "budget_words": 126,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.3137254901960784,
+       "rouge2": 0.03162055335968379,
+       "rougeL": 0.17254901960784313
+      },
+      "Lead-k": {
+       "rouge1": 0.3565217391304348,
+       "rouge2": 0.03508771929824561,
+       "rougeL": 0.17391304347826086
+      },
+      "random sentences": {
+       "rouge1": 0.31075697211155373,
+       "rouge2": 0.032128514056224904,
+       "rougeL": 0.1593625498007968
+      },
+      "TextRank": {
+       "rouge1": 0.3492063492063492,
+       "rouge2": 0.048,
+       "rougeL": 0.1746031746031746
+      },
+      "LexRank": {
+       "rouge1": 0.3952569169960474,
+       "rouge2": 0.08764940239043824,
+       "rougeL": 0.1976284584980237
+      }
+     }
+    },
+    {
+     "title": "Aardvark",
+     "budget_words": 123,
+     "body_words": 2847,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.2903225806451613,
+       "rouge2": 0.08130081300813008,
+       "rougeL": 0.16129032258064516
+      },
+      "Lead-k": {
+       "rouge1": 0.31451612903225806,
+       "rouge2": 0.0975609756097561,
+       "rougeL": 0.17741935483870971
+      },
+      "random sentences": {
+       "rouge1": 0.3064516129032258,
+       "rouge2": 0.056910569105691054,
+       "rougeL": 0.1935483870967742
+      },
+      "TextRank": {
+       "rouge1": 0.3373493975903615,
+       "rouge2": 0.06477732793522266,
+       "rougeL": 0.17670682730923695
+      },
+      "LexRank": {
+       "rouge1": 0.321285140562249,
+       "rouge2": 0.048582995951417005,
+       "rougeL": 0.14457831325301204
+      }
+     }
+    },
+    {
+     "title": "Aardwolf",
+     "budget_words": 144,
+     "body_words": 1736,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.37630662020905925,
+       "rouge2": 0.056140350877192984,
+       "rougeL": 0.1602787456445993
+      },
+      "Lead-k": {
+       "rouge1": 0.3344947735191638,
+       "rouge2": 0.07017543859649124,
+       "rougeL": 0.1672473867595819
+      },
+      "random sentences": {
+       "rouge1": 0.3017543859649123,
+       "rouge2": 0.028268551236749116,
+       "rougeL": 0.14736842105263157
+      },
+      "TextRank": {
+       "rouge1": 0.37500000000000006,
+       "rouge2": 0.0909090909090909,
+       "rougeL": 0.2013888888888889
+      },
+      "LexRank": {
+       "rouge1": 0.3693379790940766,
+       "rouge2": 0.03508771929824562,
+       "rougeL": 0.13240418118466898
+      }
+     }
+    },
+    {
+     "title": "Asia",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.27826086956521745,
+       "rouge2": 0.07678883071553229,
+       "rougeL": 0.16
+      },
+      "Lead-k": {
+       "rouge1": 0.27335640138408307,
+       "rouge2": 0.0625,
+       "rougeL": 0.1522491349480969
+      },
+      "random sentences": {
+       "rouge1": 0.27177700348432055,
+       "rouge2": 0.045454545454545456,
+       "rougeL": 0.13588850174216027
+      },
+      "TextRank": {
+       "rouge1": 0.3130434782608696,
+       "rouge2": 0.08027923211169284,
+       "rougeL": 0.1565217391304348
+      },
+      "LexRank": {
+       "rouge1": 0.3275261324041812,
+       "rouge2": 0.09440559440559439,
+       "rougeL": 0.1602787456445993
+      }
+     }
+    },
+    {
+     "title": "Atlantic Ocean",
+     "budget_words": 150,
+     "body_words": 2194,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.3799472295514512,
+       "rouge2": 0.10610079575596817,
+       "rougeL": 0.22691292875989447
+      },
+      "Lead-k": {
+       "rouge1": 0.46842105263157896,
+       "rouge2": 0.19047619047619047,
+       "rougeL": 0.23684210526315788
+      },
+      "random sentences": {
+       "rouge1": 0.36939313984168864,
+       "rouge2": 0.08488063660477455,
+       "rougeL": 0.19525065963060687
+      },
+      "TextRank": {
+       "rouge1": 0.4304461942257217,
+       "rouge2": 0.1266490765171504,
+       "rougeL": 0.23097112860892388
+      },
+      "LexRank": {
+       "rouge1": 0.42328042328042326,
+       "rouge2": 0.11170212765957446,
+       "rougeL": 0.24338624338624337
+      }
+     }
+    },
+    {
+     "title": "Angola",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.3015873015873016,
+       "rouge2": 0.07171314741035856,
+       "rougeL": 0.16666666666666669
+      },
+      "Lead-k": {
+       "rouge1": 0.2908366533864542,
+       "rouge2": 0.048,
+       "rougeL": 0.1593625498007968
+      },
+      "random sentences": {
+       "rouge1": 0.3578528827037773,
+       "rouge2": 0.07584830339321356,
+       "rougeL": 0.17892644135188865
+      },
+      "TextRank": {
+       "rouge1": 0.34194831013916493,
+       "rouge2": 0.06387225548902195,
+       "rougeL": 0.17097415506958247
+      },
+      "LexRank": {
+       "rouge1": 0.352,
+       "rouge2": 0.09236947791164658,
+       "rougeL": 0.19200000000000003
+      }
+     }
+    },
+    {
+     "title": "Demographics of Angola",
+     "budget_words": 150,
+     "body_words": 510,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.20315236427320493,
+       "rouge2": 0.028119507908611594,
+       "rougeL": 0.10507880910683012
+      },
+      "Lead-k": {
+       "rouge1": 0.2280701754385965,
+       "rouge2": 0.04225352112676057,
+       "rougeL": 0.12280701754385966
+      },
+      "random sentences": {
+       "rouge1": 0.25263157894736843,
+       "rouge2": 0.04225352112676057,
+       "rougeL": 0.12631578947368421
+      },
+      "TextRank": {
+       "rouge1": 0.2513089005235602,
+       "rouge2": 0.04553415061295972,
+       "rougeL": 0.10471204188481677
+      },
+      "LexRank": {
+       "rouge1": 0.24825174825174826,
+       "rouge2": 0.03508771929824561,
+       "rougeL": 0.11888111888111887
+      }
+     }
+    },
+    {
+     "title": "Angolan Armed Forces",
+     "budget_words": 144,
+     "body_words": 1123,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.2876254180602007,
+       "rouge2": 0.03367003367003367,
+       "rougeL": 0.13377926421404684
+      },
+      "Lead-k": {
+       "rouge1": 0.271523178807947,
+       "rouge2": 0.006666666666666668,
+       "rougeL": 0.13245033112582782
+      },
+      "random sentences": {
+       "rouge1": 0.3533333333333333,
+       "rouge2": 0.046979865771812075,
+       "rougeL": 0.15999999999999998
+      },
+      "TextRank": {
+       "rouge1": 0.33444816053511706,
+       "rouge2": 0.06734006734006734,
+       "rougeL": 0.13377926421404684
+      },
+      "LexRank": {
+       "rouge1": 0.3164983164983165,
+       "rouge2": 0.061016949152542375,
+       "rougeL": 0.1212121212121212
+      }
+     }
+    },
+    {
+     "title": "Alberta",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.3316582914572865,
+       "rouge2": 0.08585858585858587,
+       "rougeL": 0.17587939698492458
+      },
+      "Lead-k": {
+       "rouge1": 0.37783375314861467,
+       "rouge2": 0.13670886075949368,
+       "rougeL": 0.20151133501259444
+      },
+      "random sentences": {
+       "rouge1": 0.3645569620253165,
+       "rouge2": 0.08651399491094149,
+       "rougeL": 0.2126582278481013
+      },
+      "TextRank": {
+       "rouge1": 0.33668341708542715,
+       "rouge2": 0.0808080808080808,
+       "rougeL": 0.17587939698492458
+      },
+      "LexRank": {
+       "rouge1": 0.3535353535353535,
+       "rouge2": 0.08629441624365482,
+       "rougeL": 0.17676767676767674
+      }
+     }
+    },
+    {
+     "title": "Albert Einstein",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.26599326599326595,
+       "rouge2": 0.037162162162162164,
+       "rougeL": 0.13468013468013468
+      },
+      "Lead-k": {
+       "rouge1": 0.24324324324324326,
+       "rouge2": 0.04067796610169491,
+       "rougeL": 0.13175675675675672
+      },
+      "random sentences": {
+       "rouge1": 0.23232323232323232,
+       "rouge2": 0.03378378378378378,
+       "rougeL": 0.11784511784511785
+      },
+      "TextRank": {
+       "rouge1": 0.27702702702702703,
+       "rouge2": 0.07796610169491525,
+       "rougeL": 0.14527027027027029
+      },
+      "LexRank": {
+       "rouge1": 0.2550335570469799,
+       "rouge2": 0.06060606060606061,
+       "rougeL": 0.13087248322147652
+      }
+     }
+    },
+    {
+     "title": "Afghanistan",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.35185185185185186,
+       "rouge2": 0.07906976744186046,
+       "rougeL": 0.17592592592592593
+      },
+      "Lead-k": {
+       "rouge1": 0.3101851851851852,
+       "rouge2": 0.06046511627906976,
+       "rougeL": 0.1712962962962963
+      },
+      "random sentences": {
+       "rouge1": 0.26327944572748274,
+       "rouge2": 0.023201856148491882,
+       "rougeL": 0.14318706697459582
+      },
+      "TextRank": {
+       "rouge1": 0.3263403263403263,
+       "rouge2": 0.0702576112412178,
+       "rougeL": 0.1724941724941725
+      },
+      "LexRank": {
+       "rouge1": 0.3255813953488372,
+       "rouge2": 0.06074766355140187,
+       "rougeL": 0.15813953488372093
+      }
+     }
+    },
+    {
+     "title": "Albania",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.30018761726078796,
+       "rouge2": 0.09792843691148777,
+       "rougeL": 0.18011257035647282
+      },
+      "Lead-k": {
+       "rouge1": 0.2676579925650558,
+       "rouge2": 0.041044776119402986,
+       "rougeL": 0.15613382899628253
+      },
+      "random sentences": {
+       "rouge1": 0.27819548872180455,
+       "rouge2": 0.06792452830188678,
+       "rougeL": 0.16917293233082706
+      },
+      "TextRank": {
+       "rouge1": 0.3208955223880597,
+       "rouge2": 0.0898876404494382,
+       "rougeL": 0.20149253731343286
+      },
+      "LexRank": {
+       "rouge1": 0.23076923076923078,
+       "rouge2": 0.04633204633204633,
+       "rougeL": 0.15
+      }
+     }
+    },
+    {
+     "title": "Allah",
+     "budget_words": 134,
+     "body_words": 2095,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.34657039711191334,
+       "rouge2": 0.08,
+       "rougeL": 0.1949458483754513
+      },
+      "Lead-k": {
+       "rouge1": 0.3357664233576642,
+       "rouge2": 0.08823529411764705,
+       "rougeL": 0.18248175182481752
+      },
+      "random sentences": {
+       "rouge1": 0.27838827838827834,
+       "rouge2": 0.03690036900369004,
+       "rougeL": 0.13919413919413917
+      },
+      "TextRank": {
+       "rouge1": 0.36501901140684406,
+       "rouge2": 0.10727969348659004,
+       "rougeL": 0.17490494296577946
+      },
+      "LexRank": {
+       "rouge1": 0.39272727272727276,
+       "rouge2": 0.07326007326007326,
+       "rougeL": 0.19636363636363638
+      }
+     }
+    },
+    {
+     "title": "Azerbaijan",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.22847682119205298,
+       "rouge2": 0.046511627906976744,
+       "rougeL": 0.14900662251655628
+      },
+      "Lead-k": {
+       "rouge1": 0.20327868852459016,
+       "rouge2": 0.03618421052631579,
+       "rougeL": 0.14754098360655737
+      },
+      "random sentences": {
+       "rouge1": 0.2512396694214876,
+       "rouge2": 0.05970149253731343,
+       "rougeL": 0.1487603305785124
+      },
+      "TextRank": {
+       "rouge1": 0.26490066225165565,
+       "rouge2": 0.07973421926910298,
+       "rougeL": 0.16225165562913907
+      },
+      "LexRank": {
+       "rouge1": 0.2574257425742574,
+       "rouge2": 0.036423841059602655,
+       "rougeL": 0.14851485148514854
+      }
+     }
+    },
+    {
+     "title": "Amateur astronomy",
+     "budget_words": 150,
+     "body_words": 1941,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.36657681940700804,
+       "rouge2": 0.08130081300813008,
+       "rougeL": 0.18867924528301885
+      },
+      "Lead-k": {
+       "rouge1": 0.38378378378378375,
+       "rouge2": 0.09782608695652174,
+       "rougeL": 0.17297297297297298
+      },
+      "random sentences": {
+       "rouge1": 0.3924731182795699,
+       "rouge2": 0.059459459459459456,
+       "rougeL": 0.15591397849462366
+      },
+      "TextRank": {
+       "rouge1": 0.3773584905660377,
+       "rouge2": 0.08672086720867207,
+       "rougeL": 0.16711590296495954
+      },
+      "LexRank": {
+       "rouge1": 0.41509433962264153,
+       "rouge2": 0.08130081300813008,
+       "rougeL": 0.17250673854447438
+      }
+     }
+    },
+    {
+     "title": "Art",
+     "budget_words": 150,
+     "body_words": 3000,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.3529411764705882,
+       "rouge2": 0.061269146608315096,
+       "rougeL": 0.1830065359477124
+      },
+      "Lead-k": {
+       "rouge1": 0.29193899782135074,
+       "rouge2": 0.0700218818380744,
+       "rougeL": 0.1568627450980392
+      },
+      "random sentences": {
+       "rouge1": 0.27947598253275113,
+       "rouge2": 0.05263157894736842,
+       "rougeL": 0.148471615720524
+      },
+      "TextRank": {
+       "rouge1": 0.3516483516483517,
+       "rouge2": 0.052980132450331126,
+       "rougeL": 0.21098901098901096
+      },
+      "LexRank": {
+       "rouge1": 0.3224400871459695,
+       "rouge2": 0.061269146608315096,
+       "rougeL": 0.14814814814814814
+      }
+     }
+    },
+    {
+     "title": "Agnostida",
+     "budget_words": 51,
+     "body_words": 429,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.23300970873786409,
+       "rouge2": 0.0396039603960396,
+       "rougeL": 0.13592233009708737
+      },
+      "Lead-k": {
+       "rouge1": 0.25999999999999995,
+       "rouge2": 0.02040816326530612,
+       "rougeL": 0.13999999999999999
+      },
+      "random sentences": {
+       "rouge1": 0.25999999999999995,
+       "rouge2": 0.04081632653061224,
+       "rougeL": 0.2
+      },
+      "TextRank": {
+       "rouge1": 0.2549019607843137,
+       "rouge2": 0.02,
+       "rougeL": 0.17647058823529413
+      },
+      "LexRank": {
+       "rouge1": 0.3137254901960784,
+       "rouge2": 0.04,
+       "rougeL": 0.19607843137254902
+      }
+     }
+    },
+    {
+     "title": "Ampere",
+     "budget_words": 150,
+     "body_words": 629,
+     "scores": {
+      "audio-brief": {
+       "rouge1": 0.425531914893617,
+       "rouge2": 0.11764705882352941,
+       "rougeL": 0.2021276595744681
+      },
+      "Lead-k": {
+       "rouge1": 0.4521276595744681,
+       "rouge2": 0.1443850267379679,
+       "rougeL": 0.22872340425531915
+      },
+      "random sentences": {
+       "rouge1": 0.3665768194070081,
+       "rouge2": 0.07046070460704607,
+       "rougeL": 0.18328840970350405
+      },
+      "TextRank": {
+       "rouge1": 0.4547945205479452,
+       "rouge2": 0.15426997245179067,
+       "rougeL": 0.2410958904109589
+      },
+      "LexRank": {
+       "rouge1": 0.4308510638297873,
+       "rouge2": 0.1229946524064171,
+       "rougeL": 0.22340425531914893
+      }
+     }
+    }
+   ]
+  },
+  "performance": {
+   "corpus": "State of the Union addresses, chronological",
+   "scaling": [
+    {
+     "words": 10000,
+     "units": 454,
+     "repeats": 5,
+     "analyze_s": [
+      0.19358381900019594,
+      0.30218078200050513,
+      0.21700109599987627,
+      0.14845740400051,
+      0.14532307099943864
+     ],
+     "export_s": [
+      0.2906549079998513,
+      0.2778501270004199,
+      0.21210323000013886,
+      0.19418342099925212,
+      0.22914455000136513
+     ],
+     "stages_median_s": {
+      "units": 0.0021747460014012177,
+      "specificity": 0.07878870999957144,
+      "summary": 0.012660483000217937,
+      "keywords": 0.01762994999990042,
+      "topic tree": 0.05185262200029683,
+      "timestamps": 0.0002903160002460936,
+      "mind map": 0.028476403998865862,
+      "grouping": 0.0014421889991353964
+     },
+     "peak_bytes": 3057959
+    },
+    {
+     "words": 30000,
+     "units": 1374,
+     "repeats": 5,
+     "analyze_s": [
+      0.5675358539992885,
+      0.3963120779990277,
+      0.6730491170001187,
+      0.8267675120005151,
+      1.125199709998924
+     ],
+     "export_s": [
+      0.4598717150001903,
+      0.5190373040004488,
+      0.6828575149993412,
+      0.8850429419999273,
+      0.8395673710001574
+     ],
+     "stages_median_s": {
+      "units": 0.01023906099908345,
+      "specificity": 0.3092036760008341,
+      "summary": 0.05875678200027323,
+      "keywords": 0.059997639000357594,
+      "topic tree": 0.11748846400041657,
+      "timestamps": 0.0002581850003480213,
+      "mind map": 0.11813918400002876,
+      "grouping": 0.0031573819996992825
+     },
+     "peak_bytes": 10132015
+    },
+    {
+     "words": 100000,
+     "units": 4536,
+     "repeats": 3,
+     "analyze_s": [
+      2.854196370999489,
+      1.8394408100011788,
+      2.9165476219986886
+     ],
+     "export_s": [
+      2.007614664000357,
+      3.1531789990003745,
+      2.1569262699995306
+     ],
+     "stages_median_s": {
+      "units": 0.03401317499992729,
+      "specificity": 1.3415200100007496,
+      "summary": 0.18803722799930256,
+      "keywords": 0.19366875100058678,
+      "topic tree": 0.4389852160002192,
+      "timestamps": 0.00014230800115910824,
+      "mind map": 0.6123540650005452,
+      "grouping": 0.010350602000471554
+     },
+     "peak_bytes": 31251991
+    },
+    {
+     "words": 300000,
+     "units": 13536,
+     "repeats": 2,
+     "analyze_s": [
+      8.140152899000896,
+      8.586086054998304
+     ],
+     "export_s": [
+      10.273343667999143,
+      8.83127385700027
+     ],
+     "stages_median_s": {
+      "units": 0.08734740199997759,
+      "specificity": 4.6194603619997,
+      "summary": 0.7214090670004225,
+      "keywords": 0.4669506315003673,
+      "topic tree": 0.7848282795002888,
+      "timestamps": 0.00017209999896294903,
+      "mind map": 1.6366139999990992,
+      "grouping": 0.04129174899935606
+     },
+     "peak_bytes": 84270906
+    },
+    {
+     "words": 1000000,
+     "units": 46659,
+     "repeats": 1,
+     "analyze_s": [
+      34.4584281690004
+     ],
+     "export_s": [
+      33.39019161500073
+     ],
+     "stages_median_s": {
+      "units": 0.41787011199994595,
+      "specificity": 19.962238488000366,
+      "summary": 2.4373801390011067,
+      "keywords": 2.5206774069993116,
+      "topic tree": 2.7686535169996205,
+      "timestamps": 0.00015682000048400369,
+      "mind map": 6.119743344001108,
+      "grouping": 0.22461869600010687
+     },
+     "peak_bytes": null
+    }
+   ],
+   "per_address": [
+    {
+     "year": 1790,
+     "words": 1401,
+     "analyze_s": 0.01661603200045647
+    },
+    {
+     "year": 1795,
+     "words": 1984,
+     "analyze_s": 0.02836332399965613
+    },
+    {
+     "year": 1800,
+     "words": 1372,
+     "analyze_s": 0.016586985999310855
+    },
+    {
+     "year": 1805,
+     "words": 2941,
+     "analyze_s": 0.056580145999760134
+    },
+    {
+     "year": 1810,
+     "words": 2446,
+     "analyze_s": 0.048172538001381326
+    },
+    {
+     "year": 1815,
+     "words": 3154,
+     "analyze_s": 0.07615599300152098
+    },
+    {
+     "year": 1820,
+     "words": 3441,
+     "analyze_s": 0.08232745500026795
+    },
+    {
+     "year": 1825,
+     "words": 9000,
+     "analyze_s": 0.5539297999985138
+    },
+    {
+     "year": 1830,
+     "words": 15072,
+     "analyze_s": 0.539482146001319
+    },
+    {
+     "year": 1835,
+     "words": 10809,
+     "analyze_s": 0.35328056900107185
+    },
+    {
+     "year": 1840,
+     "words": 8976,
+     "analyze_s": 0.3584271750005428
+    },
+    {
+     "year": 1845,
+     "words": 16107,
+     "analyze_s": 0.5940180019988475
+    },
+    {
+     "year": 1850,
+     "words": 8318,
+     "analyze_s": 0.2525682659997983
+    },
+    {
+     "year": 1855,
+     "words": 11610,
+     "analyze_s": 0.3961818419993506
+    },
+    {
+     "year": 1860,
+     "words": 14025,
+     "analyze_s": 0.4353028069999709
+    },
+    {
+     "year": 1865,
+     "words": 9218,
+     "analyze_s": 0.26793991699923936
+    },
+    {
+     "year": 1870,
+     "words": 8733,
+     "analyze_s": 0.26001123700007156
+    },
+    {
+     "year": 1875,
+     "words": 12200,
+     "analyze_s": 0.3651145159983571
+    },
+    {
+     "year": 1880,
+     "words": 6589,
+     "analyze_s": 0.2061848289995396
+    },
+    {
+     "year": 1885,
+     "words": 19746,
+     "analyze_s": 0.6846462060002523
+    },
+    {
+     "year": 1890,
+     "words": 11520,
+     "analyze_s": 0.3600958390015876
+    },
+    {
+     "year": 1895,
+     "words": 14625,
+     "analyze_s": 0.3471414579998964
+    },
+    {
+     "year": 1900,
+     "words": 19134,
+     "analyze_s": 0.3357355539992568
+    },
+    {
+     "year": 1905,
+     "words": 25033,
+     "analyze_s": 0.3330932810004015
+    },
+    {
+     "year": 1910,
+     "words": 6763,
+     "analyze_s": 0.09225547700043535
+    },
+    {
+     "year": 1915,
+     "words": 7686,
+     "analyze_s": 0.18812682399948244
+    },
+    {
+     "year": 1920,
+     "words": 2705,
+     "analyze_s": 0.07386249599949224
+    },
+    {
+     "year": 1925,
+     "words": 10843,
+     "analyze_s": 0.35380488199916726
+    },
+    {
+     "year": 1930,
+     "words": 4540,
+     "analyze_s": 0.17075651399864
+    },
+    {
+     "year": 1936,
+     "words": 3810,
+     "analyze_s": 0.11044642300112173
+    },
+    {
+     "year": 1941,
+     "words": 3288,
+     "analyze_s": 0.09406350299832411
+    },
+    {
+     "year": 1946,
+     "words": 27708,
+     "analyze_s": 1.2798685029993067
+    },
+    {
+     "year": 1951,
+     "words": 3988,
+     "analyze_s": 0.12547791600081837
+    },
+    {
+     "year": 1955,
+     "words": 7250,
+     "analyze_s": 0.34126029000071867
+    },
+    {
+     "year": 1960,
+     "words": 5648,
+     "analyze_s": 0.20540437499948894
+    },
+    {
+     "year": 1964,
+     "words": 3187,
+     "analyze_s": 0.10120048899989342
+    },
+    {
+     "year": 1969,
+     "words": 4107,
+     "analyze_s": 0.11309507499936444
+    },
+    {
+     "year": 1974,
+     "words": 5154,
+     "analyze_s": 0.17172470399964368
+    },
+    {
+     "year": 1979,
+     "words": 3243,
+     "analyze_s": 0.11108182400130318
+    },
+    {
+     "year": 1984,
+     "words": 4944,
+     "analyze_s": 0.1742641540004115
+    }
+   ]
+  },
+  "asr": {
+   "items": 8,
+   "reference_words": 152,
+   "audio_s": 283.882,
+   "long_minutes": 5,
+   "engines": [
+    {
+     "engine": "pocketsphinx",
+     "available": true,
+     "detail": "bundled en-us model",
+     "wer_read": {
+      "wer": 0.2676056338028169,
+      "lo": 0.19607843137254902,
+      "hi": 0.325,
+      "items": 5,
+      "words": 71
+     },
+     "wer_conversation_turns": {
+      "wer": 0.9506172839506173,
+      "lo": 0.8442622950819673,
+      "hi": 1.0819672131147542,
+      "items": 13,
+      "words": 81
+     },
+     "wer_conversation_whole": {
+      "wer": 0.8148148148148148,
+      "words": 81
+     },
+     "wer_all": {
+      "wer": 0.631578947368421,
+      "lo": 0.45933014354066987,
+      "hi": 0.864406779661017,
+      "items": 18,
+      "words": 152
+     },
+     "load_s": 0.4175236560004123,
+     "rtf_median": 0.8002591849382286,
+     "rtf_files": 3,
+     "long": {
+      "audio_s": 300.0,
+      "decode_s": 220.44816367699968,
+      "rtf": 0.7348272122566656,
+      "peak_rss_bytes": 169041920
+     },
+     "examples": {
+      "librivox_0870": {
+       "reference": "and mister john dashwood had then leisure to consider how much there might be prudently in his power to do for them",
+       "hypothesis": "and mr john guess would have been at leisure to consider how much there might be prickly in his power to do for"
+      },
+      "librivox_0880": {
+       "reference": "he was not an ill disposed young man",
+       "hypothesis": "he was not until this blows young man"
+      },
+      "conversation": {
+       "reference": "Hello? Hello? Oh, hello. I didn't know you were there. Neither did I. Okay, then I thought you know, I heard a beep. This is Diane in New Jersey. And I'm Sheila in Texas, originally from Chicago. Oh, I'm originally from Chicago also. I'm in New Jersey now though. Well, there isn't that much differen",
+       "hypothesis": "hello hello i'll highlight the night repair and he admitted that it had been i've repeated that i am in new jersey and i'm sheila and pack them in their chili who should have only one really fun to have often a major theme now the bullet and am i different to flee to know they are commie a yankee do"
+      }
+     }
+    },
+    {
+     "engine": "whisper tiny",
+     "available": false,
+     "reason": "model weights not cached and not downloadable (URLError)"
+    },
+    {
+     "engine": "whisper base",
+     "available": false,
+     "reason": "model weights not cached and not downloadable (URLError)"
+    }
+   ],
+   "footprint": {
+    "pocketsphinx": 39204489,
+    "whisper": 5478318390,
+    "whisper_weights_cached": 0
+   }
+  },
+  "parallel": {
+   "available": true,
+   "cpus": 4,
+   "memory_gb": 15.04397964477539,
+   "batch": {
+    "files": 8,
+    "audio_s": 283.882,
+    "sequential_s": 148.496671547,
+    "parallel_s": 37.886603588998696,
+    "workers": 4,
+    "units": 10,
+    "speedup": 3.9195033990885277
+   },
+   "long": {
+    "audio_s": 273.65,
+    "reference_words": 760,
+    "whole_s": 127.97042342699933,
+    "split_s": 57.07170991300154,
+    "parts": 5,
+    "workers": 4,
+    "speedup": 2.2422742129519815,
+    "wer_whole": 0.6052631578947368,
+    "wer_split": 0.5736842105263158,
+    "transcripts_differ": 0.2871287128712871
+   },
+   "measured_at": "2026-11-16T00:17:00",
+   "environment": {
+    "python": "3.12.3",
+    "implementation": "CPython",
+    "os": "Linux 6.18.44-fc-v310",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.60GHz",
+    "cores": 4,
+    "memory": "16 GB",
+    "git_commit": "e1f9ee4",
+    "uncommitted_changes_in_audio_brief": true
+   }
+  },
+  "synthetic": {
+   "rows": [
+    {
+     "dataset": "meeting",
+     "kind": "meeting",
+     "size": 21,
+     "words": 169,
+     "units": 21,
+     "t_specificity": 0.00047785300012037624,
+     "t_summary": 0.00018131899923901074,
+     "t_keywords": 0.00036020399966218974,
+     "t_mindmap": 0.00025346399888803717,
+     "t_topics": 0.0006451450008171378,
+     "t_export": 0.005322112001522328,
+     "tree_coverage": 1.0,
+     "tree_purity": 1.0,
+     "tree_generic_roots": 0.0,
+     "tree_fragmentation": 1.3333333333333333,
+     "tree_roots": 4,
+     "tree_nodes": 6,
+     "kw_precision": 0.7333333333333333,
+     "mm_branches": 5,
+     "mm_duplicate_labels": 0,
+     "mm_purity": 0.9411764705882353,
+     "mm_coverage": 1.0,
+     "summary_on_topic": 1.0
+    },
+    {
+     "dataset": "verbatim chat 2000",
+     "kind": "chat",
+     "size": 2000,
+     "words": 10642,
+     "units": 2000,
+     "t_specificity": 0.05720570700032113,
+     "t_summary": 0.021782050000183517,
+     "t_keywords": 0.016640461999486433,
+     "t_mindmap": 0.02044992499941145,
+     "t_topics": 0.039257938999071484,
+     "t_export": 0.23484852299952763,
+     "tree_coverage": 1.0,
+     "tree_purity": 0.8571428571428571,
+     "tree_generic_roots": 0.0,
+     "tree_fragmentation": 0.875,
+     "tree_roots": 7,
+     "tree_nodes": 46,
+     "kw_precision": 1.0,
+     "mm_branches": 7,
+     "mm_duplicate_labels": 0,
+     "mm_purity": 0.8832599118942731,
+     "mm_coverage": 0.875,
+     "summary_on_topic": 1.0
+    },
+    {
+     "dataset": "conversation 200",
+     "kind": "conversation",
+     "size": 200,
+     "words": 1209,
+     "units": 200,
+     "t_specificity": 0.004297761999623617,
+     "t_summary": 0.0012364909998723306,
+     "t_keywords": 0.001269497999601299,
+     "t_mindmap": 0.002159900999686215,
+     "t_topics": 0.0036358489996928256,
+     "t_export": 0.015254994999850169,
+     "tree_coverage": 0.625,
+     "tree_purity": 0.6,
+     "tree_generic_roots": 0.0,
+     "tree_fragmentation": 1.0,
+     "tree_roots": 5,
+     "tree_nodes": 32,
+     "kw_precision": 0.4666666666666667,
+     "mm_branches": 6,
+     "mm_duplicate_labels": 0,
+     "mm_purity": 0.6363636363636364,
+     "mm_coverage": 0.75,
+     "summary_on_topic": 1.0
+    },
+    {
+     "dataset": "conversation 2000",
+     "kind": "conversation",
+     "size": 2000,
+     "words": 12538,
+     "units": 2000,
+     "t_specificity": 0.024948629999926197,
+     "t_summary": 0.013016756000070018,
+     "t_keywords": 0.009664475999670685,
+     "t_mindmap": 0.01698996199957037,
+     "t_topics": 0.022694082999805687,
+     "t_export": 0.12690057500003604,
+     "tree_coverage": 1.0,
+     "tree_purity": 1.0,
+     "tree_generic_roots": 0.0,
+     "tree_fragmentation": 1.0,
+     "tree_roots": 8,
+     "tree_nodes": 48,
+     "kw_precision": 1.0,
+     "mm_branches": 8,
+     "mm_duplicate_labels": 0,
+     "mm_purity": 1.0,
+     "mm_coverage": 1.0,
+     "summary_on_topic": 1.0
+    },
+    {
+     "dataset": "conversation 8000",
+     "kind": "conversation",
+     "size": 8000,
+     "words": 50184,
+     "units": 8000,
+     "t_specificity": 0.09905913799957489,
+     "t_summary": 0.060338534000038635,
+     "t_keywords": 0.03625523700065969,
+     "t_mindmap": 0.060477234999780194,
+     "t_topics": 0.07617294299961941,
+     "t_export": 0.47742420800022956,
+     "tree_coverage": 1.0,
+     "tree_purity": 1.0,
+     "tree_generic_roots": 0.0,
+     "tree_fragmentation": 1.0,
+     "tree_roots": 8,
+     "tree_nodes": 48,
+     "kw_precision": 1.0,
+     "mm_branches": 8,
+     "mm_duplicate_labels": 0,
+     "mm_purity": 1.0,
+     "mm_coverage": 1.0,
+     "summary_on_topic": 1.0
+    },
+    {
+     "dataset": "conversation 2000, no punctuation",
+     "kind": "conversation",
+     "size": 2000,
+     "words": 12538,
+     "units": 1003,
+     "t_specificity": 0.024963564001154737,
+     "t_summary": 0.007180313999924692,
+     "t_keywords": 0.008897728999727406,
+     "t_mindmap": 0.016919163999773446,
+     "t_topics": 0.019471825999062276,
+     "t_export": 0.13173699199978728,
+     "tree_coverage": 1.0,
+     "tree_purity": 1.0,
+     "tree_generic_roots": 0.0,
+     "tree_fragmentation": 1.0,
+     "tree_roots": 8,
+     "tree_nodes": 44,
+     "kw_precision": 1.0,
+     "mm_branches": 8,
+     "mm_duplicate_labels": 0,
+     "mm_purity": 0.9611428571428572,
+     "mm_coverage": 1.0,
+     "summary_on_topic": 1.0
+    }
+   ]
+  }
+ }
+}

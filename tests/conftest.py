@@ -22,3 +22,13 @@ SAMPLE_SEGMENTS = [
     {"start": 0.0, "end": 1.5, "text": "Hello world"},
     {"start": 1.5, "end": 61.2, "text": "Second segment here"},
 ]
+
+# Evaluation corpora live in benchmarks/datasets.py (shared with the benchmarks).
+from benchmarks.datasets import (  # noqa: E402,F401
+    CHAT_FILLER,
+    CONVERSATION_TOPICS,
+    GROUP_CHAT_TOPICS,
+    SAMPLE_MEETING,
+    make_conversation,
+    make_group_chat,
+)
